@@ -1,0 +1,36 @@
+html[data-munk-theme]{--app-blue:#0053fc;--app-bg:#191b1e;--app-side:#22252a;--app-panel:#272a2f;--app-field:#1f2226;--app-text:#f1ebe2;--app-muted:#c4bbb0;--app-line:#42464d;--app-link:#9dbdff;color-scheme:dark}
+html[data-munk-theme=light]{--app-bg:#fff6ea;--app-side:#ffe0c5;--app-panel:#ffead6;--app-field:#fffcf6;--app-text:#44382e;--app-muted:#79624f;--app-line:#ddc5ae;--app-link:#0053fc;color-scheme:light}
+html[data-munk-theme] body{background:var(--app-bg);color:var(--app-text)}
+.theme-control{width:100%;padding:12px 28px}.theme-control>label{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:44px}.theme-control select{min-height:44px;padding:8px 14px;border:1px solid var(--app-line);border-radius:5px;background:var(--app-field);color:var(--app-text)}
+.default-shell{position:relative}.default-clock-bar{position:absolute;top:0;left:24.0625%;right:0;height:44px;display:flex;align-items:center;justify-content:flex-end;padding:0 24px;background:var(--app-bg);z-index:4;pointer-events:none}.default-local-clock{font:400 15px/1.3 Arial,Helvetica,sans-serif;color:var(--app-muted);font-variant-numeric:tabular-nums;white-space:nowrap;flex:none}.app-shell.network-shell.default-shell>.page-content{padding-top:44px!important;box-sizing:border-box}.default-utility .mc-heading>.default-local-clock{margin-left:8px}
+/* Non-interactive route focus must never frame an entire shell or pane. */
+:is(.app-shell,.mb-preview,.live-art-skin,.default-utility,.browse-exception) :is(main,section,article,h1,h2,h3,.page-content,[data-viewer-scroll])[tabindex="-1"]:focus{outline:none!important;box-shadow:none!important}
+.mb-preview .mb-main:focus,.mb-preview .mb-navigation:focus,.mb-preview .mb-navigation:focus-within{outline:none!important;box-shadow:none!important}.mb-preview .mb-navigation{border-right-color:var(--app-line)!important}
+html[data-munk-theme] .mb-preview{--mb-blue:var(--app-blue);--mb-ink:var(--app-text);--mb-muted:var(--app-muted);--mb-paper:var(--app-bg);--mb-line:var(--app-line);background:var(--app-bg);color:var(--app-text)}
+html[data-munk-theme] .mb-preview :is(.mb-shell,.mb-main){background:var(--app-bg)}
+html[data-munk-theme] .mb-preview :is(.mb-topbar,.mb-navigation,.mb-settings-detail,.mb-profile-identity,.mb-profile-links,.mb-filter-bar,.mb-dialog,.mb-drawer){background:var(--app-side);border-color:var(--app-line);color:var(--app-text)}
+html[data-munk-theme] .mb-preview :is(input,select,textarea){background:var(--app-field);border-color:var(--app-line);color:var(--app-text)}
+html[data-munk-theme] .mb-preview :is(.mb-settings-detail p,.mb-settings-detail label,.mb-profile-identity p,.mb-help,.mb-empty p,.mb-page-heading p,.mb-brand>span,.mb-nav-bottom p,.mb-house-link,.mb-card-topic){color:var(--app-muted)!important}
+html[data-munk-theme] .mb-preview :is(.mb-profile-links>button,.mb-settings-layout>nav>button,.mb-navigation nav>button,.mb-nav-bottom>button,.mb-work-open h2,.mb-watch-main h1,.mb-watch-description,.mb-context-bar>button){color:var(--app-text)}
+html[data-munk-theme] .mb-preview :is(.mb-utilities button,.mb-secondary,.mb-topics>button,.mb-tabs>button,.mb-watch-description){background:var(--app-panel)!important;border-color:var(--app-line)!important;color:var(--app-text)!important}
+html[data-munk-theme] .mb-preview :is(.mb-navigation nav>button[aria-current=page],.mb-settings-layout>nav>button[aria-current=page],.mb-primary){background:var(--app-blue)!important;color:white!important}
+html[data-munk-theme] :is(.shared-community,.creator-page,.video-page,.account-settings,.browse-appearance){color:var(--app-text)}
+html[data-munk-theme] :is(.creator-card,.community-house-grid article,.community-posts>article,.community-message-list li,.interface-surface,.interface-card,.interface-house-card,.interface-empty){background:var(--app-panel);border-color:var(--app-line);color:var(--app-text)}
+html[data-munk-theme] :is(.shared-community,.creator-page,.interface-editor) :is(input,textarea,select){background:var(--app-field);border-color:var(--app-line);color:var(--app-text)}
+html[data-munk-theme] :is(.shared-community,.creator-page,.interface-surface) :is(small,.context-note){color:var(--app-muted)}
+html[data-munk-theme] .shared-community .button.outline{color:var(--app-link);border-color:var(--app-link)}
+html[data-munk-theme] :is(.browse-exception,.mb-fixed-exchange,.mb-house-build,.house-page,.onboarding-shell){background:var(--app-bg);color:var(--app-text)}
+html[data-munk-theme] :is(.onboarding-card,.onboarding-brand,.creator-tabs a,.creator-disclosure,.creator-feedback){background:var(--app-side);border-color:var(--app-line);color:var(--app-text)}
+html[data-munk-theme] .interface-surface{--interface-bg:var(--app-panel)!important}html[data-munk-theme] .interface-surface :is(h1,h2,h3,p,small){color:var(--app-text)}
+/* Fixed Exchange geometry is unchanged; palettes apply from every viewer or House context. */
+html[data-munk-theme=dark] .exchange-view{background:var(--app-bg);color:var(--app-text)}
+html[data-munk-theme=dark] .exchange-view :is(.exchange-toolbar,.exchange-principal>.exchange-search,.exchange-advanced,.exchange-view-modes>button,.exchange-empty,.exchange-storage-warning,.exchange-preview-label,.exchange-sample-notice){background:var(--app-panel);border-color:var(--app-line);color:var(--app-text)}
+html[data-munk-theme=dark] .exchange-view :is(input,select){background:var(--app-field);border-color:var(--app-line);color:var(--app-text)}
+html[data-munk-theme=dark] .exchange-search input{background:transparent}
+html[data-munk-theme=dark] .exchange-view :is(.exchange-results small,.exchange-search svg,.exchange-advanced>summary>span){color:var(--app-muted)}
+html[data-munk-theme=dark] .exchange-view :is(.exchange-view-modes>button[aria-pressed=true],.exchange-category-filters button[aria-pressed=true]){background:var(--app-blue);color:white;border-color:var(--app-blue)}
+html[data-munk-theme=dark] .exchange-view[data-view] .exchange-canvas .exchange-watch,html[data-munk-theme=dark] .mosaic-market-link{background:#25282fee;color:var(--app-text)}
+html[data-munk-theme=dark] .exchange-view .text-button{color:var(--app-link)}
+@media(max-width:760px){.default-clock-bar{top:72px;left:0;height:36px;padding-right:16px}.app-shell.network-shell.default-shell>.page-content{padding-top:36px!important}.default-utility .mc-heading{display:grid;grid-template-columns:44px minmax(0,1fr) 44px;grid-template-rows:44px 24px;gap:4px 8px}.default-utility .mc-heading>button:first-child{grid-area:1/1}.default-utility .mc-heading>h1{grid-area:1/2}.default-utility .mc-heading>button:last-child{grid-area:1/3}.default-utility .mc-heading>.munk-logo{grid-area:2/2;width:76px;height:24px;justify-self:start}.default-utility .mc-heading>.default-local-clock{grid-area:2/2;justify-self:end;margin:0;font-size:13px}.theme-control{padding-inline:12px}}
+
+.community-house-avatar{display:grid;place-items:center;width:68px;height:68px;border-radius:50%;background:var(--app-side);color:var(--app-link);font:600 24px/1 Arial,sans-serif;margin-bottom:16px}.mb-preview .community-house-grid article{background:var(--app-panel);border:1px solid var(--app-line);padding:24px;border-radius:12px}.mb-preview .community-house-grid h2{font-size:23px;margin-bottom:16px}.mb-preview .community-house-grid a{color:var(--app-text)}

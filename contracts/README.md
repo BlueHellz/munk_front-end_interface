@@ -1,0 +1,5 @@
+# Shared contracts
+
+Portable TypeScript API result/upload types, standard JSON Schemas and runtime guards. Foundation contracts add liveness/readiness, API errors, House draft inputs and domain state names in src/foundation.ts. src/creator.ts adds House records, upload allocation/status and manual review/submission inputs. Existing preview contracts remain compatible. Admission wording is **Manual creator review**, never verified legal identity or KYC. Authentication contracts await Privy development configuration. No server secrets, Node imports or external runtime dependencies. Preview draft/design types remain frontend-only.
+
+src/auth.ts defines the account/session/challenge wire responses, strict login input schema and browser-neutral runtime guards. It contains no tokens, keys, provider SDK or authentication implementation. Both workspaces may consume these contracts; neither may put backend handlers or credentials here. `npm run check:contracts` checks this package against ES-only libraries. `npm run check:boundaries` enforces import separation.

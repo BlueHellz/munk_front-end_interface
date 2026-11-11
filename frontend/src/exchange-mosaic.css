@@ -1,0 +1,96 @@
+/* Irregular image-led mosaic. ID-derived shapes are packed in reading order
+   by mosaic-layout.ts, with no periodic nth-child pattern or dense reordering. */
+.exchange-view[data-view="mosaic"] .exchange-canvas {
+ --mosaic-gap: 10px;
+ --mosaic-columns: 6;
+ --mosaic-cell: calc((100cqw - (var(--mosaic-columns) - 1) * var(--mosaic-gap)) / var(--mosaic-columns));
+ display: grid;
+ grid-template-columns: repeat(var(--mosaic-columns), minmax(0, 1fr));
+ grid-auto-rows: var(--mosaic-cell);
+ grid-auto-flow: row;
+ gap: var(--mosaic-gap);
+}
+.exchange-view[data-view="mosaic"] { container-type: inline-size; }
+.exchange-view[data-view="mosaic"].exchange-density-comfortable .exchange-canvas { --mosaic-gap: 14px; }
+.exchange-view[data-view="mosaic"] .exchange-canvas[data-count] .house-mosaic-tile:nth-child(n) {
+ --tile-column:var(--mosaic-column-6,1);
+ --tile-row:var(--mosaic-row-6,auto);
+ --tile-width:var(--mosaic-width-6,1);
+ --tile-height:var(--mosaic-height-6,1);
+ --tile-title:var(--mosaic-title-6,16px);
+ grid-column:var(--tile-column) / span var(--tile-width);
+ grid-row:var(--tile-row) / span var(--tile-height);
+ min-height: 0;
+ border-radius: 14px;
+ box-shadow: 0 2px 5px #6c4c241a;
+}
+@media (min-width:761px) and (max-width:1279px) {
+ .exchange-view[data-view="mosaic"] .exchange-canvas { --mosaic-columns:4; }
+ .exchange-view[data-view="mosaic"] .exchange-canvas[data-count] .house-mosaic-tile:nth-child(n) {
+  --tile-column:var(--mosaic-column-4,1); --tile-row:var(--mosaic-row-4,auto);
+  --tile-width:var(--mosaic-width-4,1); --tile-height:var(--mosaic-height-4,1); --tile-title:var(--mosaic-title-4,16px);
+ }
+}
+@media (max-width:760px) {
+ .exchange-view[data-view="mosaic"] .exchange-canvas { --mosaic-columns:2; --mosaic-gap:8px; }
+ .exchange-view[data-view="mosaic"].exchange-density-comfortable .exchange-canvas { --mosaic-gap:12px; }
+ .exchange-view[data-view="mosaic"] .exchange-canvas[data-count] .house-mosaic-tile:nth-child(n) {
+  --tile-column:var(--mosaic-column-2,1); --tile-row:var(--mosaic-row-2,auto);
+  --tile-width:var(--mosaic-width-2,1); --tile-height:var(--mosaic-height-2,1); --tile-title:var(--mosaic-title-2,16px);
+ }
+}
+.exchange-view[data-view="mosaic"] .mosaic-house-entry { border-radius: inherit; overflow: hidden; }
+.exchange-view[data-view="mosaic"] .mosaic-house-entry img { width:100%; height:100%; object-fit:cover; }
+.exchange-view[data-view="mosaic"] .mosaic-shade { background:linear-gradient(180deg, #0b27300a 30%, #0b273055 52%, #09252fe8 100%); }
+.exchange-view[data-view="mosaic"] .exchange-canvas .mosaic-content { padding: 10px; padding-top: 0; }
+.exchange-view[data-view="mosaic"] .exchange-canvas .mosaic-house-name h3 {
+ font-size: var(--tile-title);
+ line-height: 1.15;
+ margin: 0;
+ text-wrap: balance;
+ overflow-wrap: anywhere;
+}
+/* Repeated metadata stays in the accessible DOM; the illustration leads visually. */
+.exchange-view[data-view="mosaic"] .mosaic-creator,
+.exchange-view[data-view="mosaic"] .mosaic-symbol,
+.exchange-view[data-view="mosaic"] .mosaic-sample,
+.exchange-view[data-view="mosaic"] .mosaic-market-label {
+ position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+ overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0;
+}
+.exchange-view[data-view="mosaic"] .exchange-canvas .mosaic-price {
+ margin: 3px 40px 0 0;
+ min-height: 34px;
+ align-content:center;
+ align-items:center;
+ gap: 2px 5px;
+ flex-wrap:wrap;
+}
+.exchange-view[data-view="mosaic"] .exchange-canvas .mosaic-price > strong { font-size:14px; line-height:1.25; }
+.exchange-view[data-view="mosaic"] .exchange-canvas .mosaic-price > span { font-size:11px; line-height:1.25; }
+.exchange-view[data-view="mosaic"] .exchange-canvas .mosaic-actions {
+ position:absolute; right:5px; bottom:4px; margin:0; padding:0;
+}
+.exchange-view[data-view="mosaic"] .mosaic-market-link {
+ display:flex; align-items:center; justify-content:center;
+ width:44px; min-height:44px; border-radius:10px;
+ background:#133d36d9; color:#e5ffdc;
+ text-decoration:none;
+}
+.exchange-view[data-view="mosaic"] .mosaic-market-link svg { width:19px; height:19px; }
+.exchange-view[data-view="mosaic"] .exchange-canvas .exchange-watch {
+ width:44px; height:44px; min-width:44px; top:4px; right:4px;
+ background:#fff8eee8; border:0; border-radius:11px;
+}
+.exchange-view[data-view="mosaic"] .house-mosaic-tile:focus-within { outline:3px solid #005bff; outline-offset:3px; }
+.exchange-view[data-view="mosaic"] .mosaic-house-entry:focus-visible { outline:3px solid #005bff; outline-offset:-4px; }
+@media (max-width:760px) {
+ .exchange-view[data-view="mosaic"] .exchange-canvas .mosaic-content { padding:8px; }
+ .exchange-view[data-view="mosaic"] .exchange-canvas .mosaic-house-name h3 { font-size:var(--tile-title); }
+ .exchange-view[data-view="mosaic"] .exchange-canvas .mosaic-price { margin-right:36px; gap:2px 4px; }
+ .exchange-view[data-view="mosaic"] .exchange-canvas .mosaic-price > strong { font-size:13px; }
+ .exchange-view[data-view="mosaic"] .exchange-canvas .mosaic-price > span { font-size:10px; }
+}
+@media (prefers-reduced-motion:reduce) {
+ .exchange-view[data-view="mosaic"] .mosaic-house-entry img { transition:none; transform:none; }
+}

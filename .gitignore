@@ -1,0 +1,36 @@
+# Dependencies and generated frontend output (at any workspace depth)
+node_modules/
+dist/
+.qa/
+*.tsbuildinfo
+coverage/
+test-results/
+playwright-report/
+.DS_Store
+
+# Generated review/test artifacts remain on disk, never in source control
+/review/
+/artifacts/
+
+# Secrets; checked-in templates contain placeholders only
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Future runtime state and uploaded/processed media (not bundled frontend fixtures)
+.data/
+runtime/
+uploads/
+media-storage/
+*.sqlite
+*.sqlite3
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+*.db
+*.log

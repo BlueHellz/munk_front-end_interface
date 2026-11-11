@@ -1,0 +1,4 @@
+import{useEffect,useState}from'react';
+export type PlaybackPreferences={speed:number;muted:boolean};const key='munk-playback-preferences-v1';
+const read=():PlaybackPreferences=>{try{const d=JSON.parse(localStorage.getItem(key)||'null');if(d&&[.75,1,1.25,1.5,2].includes(d.speed)&&typeof d.muted==='boolean')return d;}catch{}return{speed:1,muted:false};};
+export function usePlaybackPreferences(){const[value,setValue]=useState(read);useEffect(()=>{const change=()=>setValue(read());addEventListener('munk-playback-preferences',change);return()=>removeEventListener('munk-playback-preferences',change);},[]);return{...value,update:(next:PlaybackPreferences)=>{try{localStorage.setItem(key,JSON.stringify(next));}catch{setValue(next);return false;}dispatchEvent(new Event('munk-playback-preferences'));return true;}};}

@@ -1,0 +1,5 @@
+// Design registry only. Never consumed by live skin persistence or availability checks.
+import{viewerSkinRegistry}from'../../src/skins/registry';
+export const defaultInterface={...viewerSkinRegistry[0],role:'Default and recovery interface'};
+export const viewerSkins=viewerSkinRegistry.filter(s=>s.id!=='default');
+export const designReferences={browse:{repo:'jurialmunkey/skin.arctic.fuse.3',version:'3.4.16',commit:'f77921634fa639b65e80df106f5b66b20c0598e6',license:'CC BY-NC-SA 4.0',visuals:['extras/screenshots/1CPh51H.jpg','extras/screenshots/HSRRKbk.jpg','extras/screenshots/TEPKQ9H.jpg'],note:'Visually inspected search, episode browsing and layered dialog. Settings hierarchy inspected in XML; no matching Settings screenshot identified. MUNK-native web code; no reference code/assets/fonts copied.'},cinema:{repo:'AchillesPunks/repository.titan.bingie.mod',version:'2.2.3 manifest; screenshot runtime version unconfirmed',branch:'master',license:'GPL-2.0',commit:'d9f334ecc33c7d0e137dd1728af18815c512e577',status:'Existing Cinema repaired against inspected screenshots 000–009. Settings/Profile are MUNK-specific adaptations. Isolated visual acceptance pending.'}};

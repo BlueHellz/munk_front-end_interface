@@ -1,0 +1,110 @@
+import {frontendRoot,projectRoot,reviewRoot,viteEntry} from './paths.mjs';
+import {spawn,spawnSync} from 'node:child_process';
+import {mkdir,readFile,writeFile,mkdtemp,rm,readdir,copyFile,stat} from 'node:fs/promises';
+import {join,resolve} from 'node:path';import {tmpdir} from 'node:os';import {createHash} from 'node:crypto';import assert from 'node:assert/strict';
+import {devices,views,fixtureView} from './review-views.mjs';
+import {createReviewFixture,reviewHouseId} from './review-fixture.mjs';
+
+// Capture tooling only. Production application, authentication, and database are never edited.
+const options=process.argv.slice(2);const argument=name=>{const i=options.indexOf(name);return i<0?null:options[i+1];};
+const started=new Date().toISOString(),token=started.replace(/[:.]/g,'-');
+const resume=argument('--resume')?resolve(projectRoot,argument('--resume')):null;
+const output=argument('--output')?resolve(projectRoot,argument('--output')):join(reviewRoot,`current-state-${token}`);
+const base='http://localhost:5173';const expected=devices.length*views.length;assert.equal(expected,72);
+const hash=data=>createHash('sha256').update(data).digest('hex');
+const ignored=name=>['.DS_Store','__MACOSX','.AppleDouble'].includes(name)||name.startsWith('._');
+await mkdir(output,{recursive:false});await mkdir(join(output,'screenshots'));
+const entries=devices.flatMap(([device,width,height])=>views.map(([view,path])=>({filename:`${view}-${device}-${width}px.png`,view,applicationRoute:base+'/#'+path,url:base+'/#'+path,authScope:fixtureView(view)?'authenticated-fixture':'real-guest',viewport:{width,height,deviceScaleFactor:1,mobile:device==='mobile'},status:'NOT_RUN',captureTime:null,attemptTime:null,error:null})));
+const inventory=async()=>{const files={};for(const root of ['frontend/src','frontend/public','contracts/src','backend/src','backend/migrations']){async function walk(path){for(const d of await readdir(path,{withFileTypes:true})){if(ignored(d.name))continue;const file=join(path,d.name);if(d.isDirectory())await walk(file);else if(d.isFile())files[file.slice(projectRoot.length+1)]=hash(await readFile(file));}}await walk(join(projectRoot,root));}return files;};
+const before=await inventory();await writeFile(join(output,'source-inventory.json'),JSON.stringify(before,null,2));
+let sourceUnchanged=null;
+const checkpoint=()=>writeFile(join(output,'screenshot-manifest.json'),JSON.stringify({reviewStarted:started,expected,successful:entries.filter(e=>e.status==='SUCCESS').length,sourceApplicationUnchanged:sourceUnchanged,mixedCaptureTimes:!!resume,entries},null,2));
+let priorBrowser=null;
+if(resume){
+ const old=JSON.parse(await readFile(join(resume,'screenshot-manifest.json'),'utf8'));assert.equal(old.expected,72);assert.equal(old.entries.length,72);
+ priorBrowser=JSON.parse(await readFile(join(resume,'browser-results.json'),'utf8'));
+ const previous=join(output,'previous-run');await mkdir(previous);
+ for(const item of await readdir(resume,{withFileTypes:true})){if(item.isFile()&&!ignored(item.name)&&!item.name.endsWith('.zip'))await copyFile(join(resume,item.name),join(previous,item.name));}
+ const oldByName=new Map(old.entries.map(e=>[e.filename,e]));assert.equal(oldByName.size,72);
+ for(const item of entries){const oldItem=oldByName.get(item.filename);if(oldItem?.status!=='SUCCESS')continue;
+   assert.ok(oldItem.expectedViewVerified&&oldItem.captureTime&&oldItem.sha256,'Missing preserved capture provenance');
+   let bytes,storage='screenshots/'+item.filename;
+   try{bytes=await readFile(join(resume,storage));}catch(error){
+     if(error.code!=='ENOENT')throw error;
+     const archive=join(resume,'MUNK-CURRENT-STATE-REVIEW.zip');const recovered=spawnSync('/usr/bin/unzip',['-p',archive,storage],{maxBuffer:64*1024*1024});
+     assert.equal(recovered.status,0,'Could not recover preserved PNG from original ZIP: '+item.filename);bytes=recovered.stdout;storage='MUNK-CURRENT-STATE-REVIEW.zip!/'+storage;
+   }
+   assert.equal(hash(bytes),oldItem.sha256,`Preserved PNG hash mismatch: ${item.filename}`);
+   assert.equal(bytes.readUInt32BE(16),item.viewport.width);await writeFile(join(output,'screenshots',item.filename),bytes,{flag:'wx'});
+   Object.assign(item,oldItem,{authScope:oldItem.authScope||'real-guest',captureKind:'preserved',preservedFrom:{directory:resume,storage,sha256:oldItem.sha256,captureTime:oldItem.captureTime,prior:oldItem.preservedFrom||null}});
+ }
+ console.log(`Preserved ${entries.filter(e=>e.status==='SUCCESS').length} verified captures from ${resume}`);
+ const groups={};for(const e of old.entries.filter(e=>e.status!=='SUCCESS')){const error=(e.error||'Unknown failure').split('\n')[0];groups[error]=(groups[error]||0)+1;}
+ await writeFile(join(output,'failure-diagnosis.json'),JSON.stringify({source:resume,expected:old.expected,previousSuccessful:old.successful,previousFailed:old.expected-old.successful,errors:groups,initialFailureScope:'Original 24/72 run; later repair attempts have their own grouped errors above.',initialFailureCauses:[{captures:3,reason:'Discovery readiness predicate still required #discovery-search; the network header uses #network-search.'},{captures:3,reason:'Designer setup still searched for the removed .network-home-heading and Presets & design button; current access is authenticated Account → Customize Home.'},{captures:42,reason:'Creator setup depended on obsolete local-preview login controls, old upload labels, and routes without explicit House selection. The current app correctly requires a verified session and an authorized selected House.'}],packaging:'Old workflow produced a ZIP before enforcing 72/72 success and opened the folder rather than revealing the ZIP. Repaired workflow refuses packaging unless all captures validate.',incidentalDiagnostics:'Chrome display-link/TLS warnings occurred, but the public 24 captures succeeded; stale predicates and missing authenticated fixture setup explain the missing views.'},null,2));
+}
+await checkpoint();
+let tests=[];let reusable=false;
+if(resume){try{const previousSource=JSON.parse(await readFile(join(resume,'source-inventory.json'),'utf8'));const previousTests=JSON.parse(await readFile(join(resume,'test-results.json'),'utf8'));reusable=JSON.stringify(previousSource)===JSON.stringify(before)&&previousTests.length===2&&previousTests.every(t=>t.exitCode===0);if(reusable){tests=previousTests.map(t=>({...t,reusedFrom:resume,applicationSourceHashMatches:true}));for(const log of ['frontend-build.log','frontend-tests.log'])await copyFile(join(resume,log),join(output,log));console.log('Reusing passing frontend build/tests: application source hashes are unchanged.');}}catch{}}
+if(!reusable)for(const args of [['run','build'],['test']]){console.log(`Checking npm ${args.join(' ')}…`);const run=spawnSync('npm',args,{cwd:frontendRoot,encoding:'utf8',timeout:180000,maxBuffer:16*1024*1024});tests.push({command:'npm '+args.join(' '),exitCode:run.status,signal:run.signal,error:run.error?.message||null});await writeFile(join(output,args[0]==='test'?'frontend-tests.log':'frontend-build.log'),(run.stdout||'')+(run.stderr||''));}
+await writeFile(join(output,'test-results.json'),JSON.stringify(tests,null,2));
+
+let browser,ws,fixture;let nextId=0;const pending=new Map(),observations=[],runtimeErrors=[],fixtureNetworkRequests=[],fixtureAudits=[];let currentItem=null,startupError=null,diagnostics='';
+const profile=await mkdtemp(join(tmpdir(),'munk-review-'));const delay=ms=>new Promise(r=>setTimeout(r,ms));
+const send=(method,params={})=>new Promise((resolve,reject)=>{const id=++nextId,timer=setTimeout(()=>{pending.delete(id);reject(Error(`CDP timeout: ${method}`));},30000);pending.set(id,{resolve,reject,timer});ws.send(JSON.stringify({id,method,params}));});
+const evaluate=async expression=>{const r=await send('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true});if(r.exceptionDetails)throw Error(r.exceptionDetails.exception?.description||r.exceptionDetails.text);return r.result.value;};
+async function waitFor(expression,label){let last='';for(let i=0;i<120;i++){try{if(await evaluate(expression))return;}catch(error){last=error.message;}await delay(150);}const observed=await evaluate("({url:location.href,heading:document.querySelector('main h1')?.textContent,dialog:document.querySelector('[role=dialog]')?.getAttribute('aria-label'),fixture:!!window.__reviewFixture})").catch(()=>null);throw Error(`Timed out: ${label}; observed=${JSON.stringify(observed)} ${last}`);}
+async function clickText(text){assert.ok(await evaluate(`(()=>{const e=[...document.querySelectorAll('button')].find(e=>e.textContent.trim()===${JSON.stringify(text)});if(!e||e.disabled)return false;e.click();return true;})()`),`Missing enabled button: ${text}`);await delay(100);}
+async function selectFile(selector){await waitFor(`!!document.querySelector(${JSON.stringify(selector)})`,'local file selector');const {root}=await send('DOM.getDocument');const {nodeId}=await send('DOM.querySelector',{nodeId:root.nodeId,selector});assert.ok(nodeId,'No file input node');await send('DOM.setFileInputFiles',{nodeId,files:[join(frontendRoot,'public/media/munk-sample.webm')]});await waitFor("document.querySelector('main video')?.getAttribute('src')?.startsWith('blob:')",'real local file attached to native video element');await delay(500);}
+const selectedPath=path=>path+(path.includes('?')?'&':'?')+'house='+reviewHouseId;
+try{
+ const response=await fetch(base,{signal:AbortSignal.timeout(5000)});assert.ok(response.ok,`Development frontend unavailable at ${base}; start it before capture. This tool does not replace the running server.`);
+ fixture=await createReviewFixture(frontendRoot,token);
+ const port=Number(process.env.MUNK_CDP_PORT||9252);browser=spawn(process.env.CHROME_PATH||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',['--headless=new','--disable-gpu','--no-first-run','--no-default-browser-check',`--remote-debugging-port=${port}`,`--user-data-dir=${profile}`,'about:blank'],{stdio:['ignore','ignore','pipe']});browser.stderr.on('data',d=>{diagnostics=(diagnostics+d.toString()).slice(-40000);});
+ let target;for(let n=0;n<100;n++){try{target=(await(await fetch(`http://127.0.0.1:${port}/json/list`,{signal:AbortSignal.timeout(1000)})).json()).find(t=>t.type==='page');if(target)break;}catch{}await delay(200);}assert.ok(target,'Isolated Chrome did not become reachable');
+ ws=new WebSocket(target.webSocketDebuggerUrl);await new Promise((resolve,reject)=>{ws.onopen=resolve;ws.onerror=reject;});
+ ws.onmessage=event=>{const m=JSON.parse(event.data),item=pending.get(m.id);if(item){clearTimeout(item.timer);pending.delete(m.id);m.error?item.reject(Error(m.error.message)):item.resolve(m.result);}if(m.method==='Runtime.exceptionThrown')runtimeErrors.push({filename:currentItem?.filename,error:m.params.exceptionDetails.exception?.description||m.params.exceptionDetails.text});if(m.method==='Network.requestWillBeSent'&&currentItem?.authScope==='authenticated-fixture'){const u=new URL(m.params.request.url);if(u.origin===base&&u.pathname.startsWith('/api/'))fixtureNetworkRequests.push({filename:currentItem.filename,path:u.pathname,method:m.params.request.method});}};
+ await send('Page.enable');await send('Runtime.enable');await send('Network.enable');
+ // Confirm real protected creator routes stay gated. Never grant a real backend session.
+ await send('Page.navigate',{url:base+'/#/creator/overview'});await waitFor("document.querySelector('main')?.textContent.includes('Sign in to continue')",'real guest creator permission gate');assert.equal(await evaluate("!!document.querySelector('[data-creator-panel]')"),false);
+ observations.push({check:'Real guest creator workspace stays inaccessible without authentication',pass:true,url:base+'/#/creator/overview'});
+ for(const item of entries){if(item.status==='SUCCESS')continue;currentItem=item;const definition=views.find(v=>v[0]===item.view);item.attemptTime=new Date().toISOString();console.log(`Capture ${item.filename} [${item.authScope}]`);
+  try{
+   await send('Emulation.setDeviceMetricsOverride',item.viewport);
+   let path=definition[1];if(item.authScope==='authenticated-fixture'&&item.view.startsWith('creator-')&&!['creator-house-create','creator-introduction','creator-admission'].includes(item.view))path=selectedPath(path);
+   item.applicationRoute=base+'/#'+path;item.url=base+(item.authScope==='authenticated-fixture'?fixture.path:'/')+'#'+path;
+   const videoPreview=item.view==='creator-video-preview';const editorUrl=videoPreview?item.url.replace('/review-video/preview','/review-video'):item.url;
+   await send('Page.navigate',{url:editorUrl});await waitFor(`location.href===${JSON.stringify(editorUrl)}&&!!document.querySelector('main')`,'exact route');
+   if(item.authScope==='authenticated-fixture')await waitFor("!!window.__reviewFixture&&!!document.querySelector('#review-fixture-label')&&!!document.querySelector('[aria-label=Account]')",'labelled isolated account fixture');
+   if(item.view==='creator-introduction'){await waitFor("!!document.querySelector('.creator-steps')",'House setup loaded');await clickText('2. Creator introduction');await selectFile('input[type=file]');}
+   if(item.view==='creator-admission'){await waitFor("!!document.querySelector('.creator-steps')",'House setup loaded');await clickText('4. Preview & admission');}
+   if(item.view==='creator-video-editor'||videoPreview){await selectFile('[data-video-file]');if(videoPreview){await evaluate(`location.hash=${JSON.stringify('#'+path)}`);await delay(150);}}
+   if(item.view==='interface-designer'){await waitFor("!!document.querySelector('.network-header [aria-label=Account]')",'account menu');await evaluate("document.querySelector('.network-header [aria-label=Account]').click()");await waitFor("!!document.querySelector('#network-account-menu')",'account options');await clickText('Customize Home');}
+   await waitFor(`Boolean(${definition[2]})`,'expected '+item.view+' structure');
+   await evaluate("document.querySelectorAll('img').forEach(i=>i.loading='eager');true");await waitFor("[...document.images].every(i=>i.complete&&i.naturalWidth>0)",'all visible/document images loaded');await evaluate('scrollTo(0,0)');await delay(200);
+   const observed=await evaluate(`({url:location.href,expectedViewVerified:Boolean(${definition[2]}),width:document.documentElement.scrollWidth,viewportWidth:innerWidth,brokenImages:[...document.images].filter(i=>!i.complete||i.naturalWidth===0).map(i=>i.getAttribute('src')),fixture:!!window.__reviewFixture,fixtureLabel:document.querySelector('#review-fixture-label')?.textContent||null,heading:document.querySelector('main h1')?.textContent,media:[...document.querySelectorAll('main video')].map(v=>({readyState:v.readyState,networkState:v.networkState,finiteDuration:Number.isFinite(v.duration),duration:Number.isFinite(v.duration)?v.duration:null,error:v.error?{code:v.error.code,message:v.error.message}:null,sourceKind:v.getAttribute('src')?.startsWith('blob:')?'local-file':null,playbackVerified:false}))})`);
+   assert.equal(observed.url,item.url);assert.equal(observed.width,item.viewport.width,'Horizontal page overflow');assert.deepEqual(observed.brokenImages,[],'Broken screenshot images');assert.equal(observed.fixture,item.authScope==='authenticated-fixture');
+   if(observed.fixture){const audit=await evaluate('window.__reviewFixture');assert.deepEqual(audit.writes,[],'Fixture attempted a mutation');assert.deepEqual(audit.unexpected,[],'Unexpected API request');fixtureAudits.push({filename:item.filename,...audit});assert.ok(observed.fixtureLabel.includes('NO REAL LOGIN'));}
+   const modal=['market-off-grid','interface-designer'].includes(item.view);const metrics=await send('Page.getLayoutMetrics');const height=modal?item.viewport.height:Math.ceil(metrics.cssContentSize.height);
+   const shot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:!modal,clip:{x:0,y:0,width:item.viewport.width,height,scale:1}});const bytes=Buffer.from(shot.data,'base64');assert.equal(bytes.readUInt32BE(16),item.viewport.width);
+   await writeFile(join(output,'screenshots',item.filename),bytes,{flag:'wx'});Object.assign(item,{status:'SUCCESS',error:null,bytes:bytes.length,sha256:hash(bytes),captureTime:new Date().toISOString(),expectedViewVerified:true,captureKind:'new',fixtureLabel:observed.fixtureLabel});observations.push({filename:item.filename,...observed});
+  }catch(error){item.status='FAILURE';item.error=error.message;console.error(item.filename+': '+error.message);}
+  await checkpoint();
+ }
+}catch(error){startupError=error.message;console.error(startupError);}
+finally{
+ for(const p of pending.values())clearTimeout(p.timer);ws?.close();if(browser){browser.kill();if(browser.exitCode===null)await Promise.race([new Promise(resolve=>browser.once('exit',resolve)),delay(2000)]);}await rm(profile,{recursive:true,force:true,maxRetries:8,retryDelay:200});await fixture?.dispose();
+}
+const after=await inventory(),unchanged=JSON.stringify(before)===JSON.stringify(after);sourceUnchanged=unchanged;assert.ok(unchanged,'Application/backend source changed during capture');
+const successful=entries.filter(e=>e.status==='SUCCESS').length;
+const browserResult={date:new Date().toISOString(),status:successful===72&&!startupError&&!runtimeErrors.length&&!fixtureNetworkRequests.length?'PASS':'PARTIAL',startupError,expected,successful,applicationAndBackendSourceUnchanged:unchanged,realGuestCreatorGateVerified:observations.some(x=>x.pass),fixtureBackendRequests:fixtureNetworkRequests,fixtureAudits,observations,runtimeErrors,scope:'Real guest captures use the actual development application. Authenticated UI fixture captures use a separate temporary entry, dummy account, read-only in-browser DTOs, and a visible watermark. No Privy login or backend authentication bypass is used.',retainedObservations:priorBrowser?.observations||[]};
+await checkpoint();await writeFile(join(output,'browser-results.json'),JSON.stringify(browserResult,null,2));await writeFile(join(output,'chrome-diagnostics.txt'),diagnostics);
+for(const name of ['review-package.mjs','review-fixture.mjs','review-views.mjs','verify-review.py','paths.mjs'])await copyFile(join(frontendRoot,'scripts',name),join(output,name));
+await writeFile(join(output,'README.md'),`# MUNK complete visual review\n\n${successful}/72 requested captures. Generated ${started}.\n\n- 24 screen definitions × desktop 1440×1024, tablet 768×1024, mobile 390×844.\n- Real guest screens are marked real-guest in screenshot-manifest.json.\n- Creator and designer screenshots are AUTHENTICATED UI FIXTURES, visibly watermarked. Selected sample video files are real local bytes; screenshots record native media state without claiming playback/processing success. Deferred mobile metadata is not a failed screen capture. They do not demonstrate real login, persistent House data, upload processing, admission, or publication. No authentication bypass exists in the application/server.\n- ${entries.filter(e=>e.preservedFrom).length} successful captures were copied byte-for-byte from ${resume||'none'}; their original timestamps, URLs, and SHA-256 hashes are retained. They are historical captures, not newly rendered against the current source.\n- Other captures are new. See source-inventory.json for current source hashes and previous-run/ for original reports and inventories. This is deliberately a mixed-time review to preserve the successful originals.\n- Fixture capture scripts refuse every API mutation and fail on unexpected reads. Network auditing confirms zero live backend requests from fixture pages. The real guest creator route was checked to remain inaccessible.\n- Only capture tooling changed. Application/frontend/backend source and assets were hashed before and after. No paid service, deployment, trading, or blockchain action was performed.\n\n## Verification\n\nPNG verification checks all 72 file hashes, dimensions, every PNG chunk CRC, and full pixel-stream decompression. The complete ZIP is created only after all 72 expected views succeed, tests pass, the real permission gate passes, and source/network audits pass. ZIP verification checks CRCs, exact file set, every archived byte against disk, 72 PNGs, and zero macOS metadata. See png-verification.json and the adjacent ZIP.verification.json.\n\n## Reproduce\n\nWith the current frontend running at http://localhost:5173:\n\n\`\`\`sh\nnode frontend/scripts/review-package.mjs --resume ${JSON.stringify(output)} --reveal\n\`\`\`\n\nOmit --resume for a fresh 72-capture run. Resume always writes a new output directory and never overwrites existing screenshots. Failed/partial runs retain diagnostics and successful captures but do not produce a review ZIP.\n`);
+await writeFile(join(output,'screenshots','README.md'),'See ../screenshot-manifest.json for per-image authentication scope, source timestamp and SHA-256. Authenticated fixture images also contain a visible watermark.\n');
+if(successful!==72||startupError||tests.some(t=>t.exitCode!==0)||runtimeErrors.length||fixtureNetworkRequests.length||!browserResult.realGuestCreatorGateVerified){console.error(`Review incomplete or checks failed: ${successful}/72. No ZIP created. Resume from ${output}`);process.exitCode=1;}
+else{
+ for(const extra of [[],['--zip']]){const run=spawnSync('python3',[join(frontendRoot,'scripts','verify-review.py'),output,...extra],{encoding:'utf8',maxBuffer:4*1024*1024});if(run.status!==0)throw Error(run.stdout+run.stderr);console.log(run.stdout.trim());}
+ const zipPath=join(output,'MUNK-CURRENT-STATE-REVIEW.zip');
+ if(options.includes('--reveal')){const reveal=spawnSync('open',['-R',zipPath],{encoding:'utf8'});await writeFile(join(output,'finder-result.json'),JSON.stringify({command:['open','-R',zipPath],exitCode:reveal.status,error:reveal.error?.message||null,stderr:reveal.stderr},null,2));assert.equal(reveal.status,0,'Could not reveal verified ZIP in Finder: '+reveal.stderr);}
+ console.log(`Complete review: ${output}\nVerified ZIP: ${zipPath}`);
+}

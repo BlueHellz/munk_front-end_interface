@@ -1,0 +1,80 @@
+{
+  "repository": "AchillesPunks/repository.titan.bingie.mod",
+  "commit": "d9f334ecc33c7d0e137dd1728af18815c512e577",
+  "path": "omega/skin.titan.bingie.mod",
+  "manifestVersion": "2.2.3",
+  "note": "Version is the surrounding manifest version, not an independently proven screenshot capture/runtime version. Visual references only; not application artwork.",
+  "retrievedAt": "2026-11-03T00:36:48.900943+00:00",
+  "developerThread": "https://forum.kodi.tv/showthread.php?tid=355993",
+  "threadAccess": "HTTP 403 via browsing tool",
+  "files": [
+    {
+      "file": "screenshot000.jpg",
+      "source": "https://raw.githubusercontent.com/AchillesPunks/repository.titan.bingie.mod/d9f334ecc33c7d0e137dd1728af18815c512e577/omega/skin.titan.bingie.mod/resources/screenshot000.jpg",
+      "sha256": "ea221735f4919f97c49663a616eaa0559bd86543e6a51376a9c4fc9d382449a4"
+    },
+    {
+      "file": "screenshot001.jpg",
+      "source": "https://raw.githubusercontent.com/AchillesPunks/repository.titan.bingie.mod/d9f334ecc33c7d0e137dd1728af18815c512e577/omega/skin.titan.bingie.mod/resources/screenshot001.jpg",
+      "sha256": "522506ef92287b4ce1e47e34cb744211dffed39a5b3619b00aea1881dcb89801"
+    },
+    {
+      "file": "screenshot002.jpg",
+      "source": "https://raw.githubusercontent.com/AchillesPunks/repository.titan.bingie.mod/d9f334ecc33c7d0e137dd1728af18815c512e577/omega/skin.titan.bingie.mod/resources/screenshot002.jpg",
+      "sha256": "da4df14c7c0c956ea020c1495dc37d39698ea99bc7ee7a2bebd40770c3826f32"
+    },
+    {
+      "file": "screenshot003.jpg",
+      "source": "https://raw.githubusercontent.com/AchillesPunks/repository.titan.bingie.mod/d9f334ecc33c7d0e137dd1728af18815c512e577/omega/skin.titan.bingie.mod/resources/screenshot003.jpg",
+      "sha256": "9c3c1619d68246bc00201ad7a16d710ec6038388acb3ca37b1fe76101e677199"
+    },
+    {
+      "file": "screenshot004.jpg",
+      "source": "https://raw.githubusercontent.com/AchillesPunks/repository.titan.bingie.mod/d9f334ecc33c7d0e137dd1728af18815c512e577/omega/skin.titan.bingie.mod/resources/screenshot004.jpg",
+      "sha256": "8bc5e9d2264e6b55ae92c68a40290c5b9d5751f76ba53f207dbed14547840005"
+    },
+    {
+      "file": "screenshot005.jpg",
+      "source": "https://raw.githubusercontent.com/AchillesPunks/repository.titan.bingie.mod/d9f334ecc33c7d0e137dd1728af18815c512e577/omega/skin.titan.bingie.mod/resources/screenshot005.jpg",
+      "sha256": "25e6c190bda206f056178e06ee17b71057d931be9f1d05e27f74a08669814d9e"
+    },
+    {
+      "file": "screenshot006.jpg",
+      "source": "https://raw.githubusercontent.com/AchillesPunks/repository.titan.bingie.mod/d9f334ecc33c7d0e137dd1728af18815c512e577/omega/skin.titan.bingie.mod/resources/screenshot006.jpg",
+      "sha256": "9a951d1ca66450425b3cfeaf6b4007fc5027de6847c46e80eb7bdf1c7b2add6c"
+    },
+    {
+      "file": "screenshot007.jpg",
+      "source": "https://raw.githubusercontent.com/AchillesPunks/repository.titan.bingie.mod/d9f334ecc33c7d0e137dd1728af18815c512e577/omega/skin.titan.bingie.mod/resources/screenshot007.jpg",
+      "sha256": "4b2a582dcf3e11eee42c03de1256773a5704f7770fa575ac82e72a171b1d5c35"
+    },
+    {
+      "file": "screenshot008.jpg",
+      "source": "https://raw.githubusercontent.com/AchillesPunks/repository.titan.bingie.mod/d9f334ecc33c7d0e137dd1728af18815c512e577/omega/skin.titan.bingie.mod/resources/screenshot008.jpg",
+      "sha256": "d62afce83716e0243b47ef1536139e28b3fa4ad7ef43a981d2d2fb3f6a0d6f30"
+    },
+    {
+      "file": "screenshot009.jpg",
+      "source": "https://raw.githubusercontent.com/AchillesPunks/repository.titan.bingie.mod/d9f334ecc33c7d0e137dd1728af18815c512e577/omega/skin.titan.bingie.mod/resources/screenshot009.jpg",
+      "sha256": "ba19357b1842b61c9a8993224b411004a08d8f6f465ee39da4267174716a7c77"
+    }
+  ],
+  "visualInspection": {
+    "screenshot000.jpg": "Home featured artwork, slim left icon rail, Play/More Info, collection begins at bottom.",
+    "screenshot001.jpg": "Home collection-browsing state: selected poster, compact information above, multiple horizontal shelves.",
+    "screenshot002.jpg": "Media details: artwork on right, information and vertical playback/action list on left. Resume shown in reference only; MUNK must not fabricate progress.",
+    "screenshot003.jpg": "Details secondary navigation and related collection over the same artwork backdrop.",
+    "screenshot004.jpg": "Series/season episode browser with thumbnails, descriptions and selection outline.",
+    "screenshot005.jpg": "Playback information OSD: player utility icons, video information overlay and seek timeline. Does not show an unobstructed player or Settings.",
+    "screenshot006.jpg": "Playback up-next overlay. Not evidence of MUNK autoplay/progress support.",
+    "screenshot007.jpg": "Category/search-results-style browsing: vertical category list alongside dense poster grid.",
+    "screenshot008.jpg": "Artwork-led random-selection/discovery view, Play Something Else. Not normal playback or Settings.",
+    "screenshot009.jpg": "Artwork-led genre/category selector with slim navigation rail."
+  },
+  "missingVisualCoverage": [
+    "Settings",
+    "Profile/account screens",
+    "Unobstructed playback controls outside the shown OSD states"
+  ],
+  "implementation": "No application code or styles changed at this reference checkpoint."
+}

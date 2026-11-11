@@ -1,0 +1,3 @@
+# PostgreSQL migrations
+
+`0001_foundation.sql` defines domain tables and integrity constraints. `0002_creator_workflow.sql` adds address/identity guards, receive leases and creation idempotency. `0003_auth_sessions.sql` adds browser-bound login challenges, hashed persistent sessions, provider-session logout revocation and login rate windows. Run `npm run db:migrate` at the root. The runner uses an advisory lock, checks SHA-256 history and commits each migration with its history row atomically. Add migrations; never edit applied files. No provisioning, reset or seed identities. See [backend setup](../README.md).

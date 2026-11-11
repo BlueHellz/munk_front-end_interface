@@ -1,0 +1,12 @@
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App';
+import { PrivyAuth } from './privy-auth';
+import './styles.css';
+import './visual-fixes.css';
+import './discovery.css';
+import './creator.css';
+import './exchange-mosaic.css';
+import './network-navigation.css';
+import './default-navigation.css';
+createRoot(document.getElementById('root')!).render(<React.StrictMode><PrivyAuth><App /></PrivyAuth></React.StrictMode>);

@@ -1,0 +1,153 @@
+/* Focused visual corrections; the reference shell and page structure stay intact. */
+@font-face {
+  font-family: 'Munk Hand';
+  src: local('Noteworthy-Light'), local('Noteworthy Light');
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+:root { --handwritten-font: 'Munk Hand', 'Segoe Script', 'Snell Roundhand', cursive; }
+
+/* .tabs button.active previously overrode .home-tabs .active: blue text on blue. */
+.home-tabs button.active {
+  color: #fff;
+  background: var(--blue);
+  -webkit-text-fill-color: currentColor;
+}
+.home-tabs button { flex: 0 0 auto; min-height: 44px; line-height: 1.35; }
+.home-tabs .tab-label { display: inline; visibility: visible; opacity: 1; }
+
+.film-name,
+.house-banner > h2,
+.house-film-poster > span:not(.poster-play) {
+  font-family: var(--handwritten-font);
+  font-weight: 300;
+  font-style: normal;
+  letter-spacing: -.5px;
+  line-height: 1.3;
+}
+.film-name { text-shadow: 0 1px 2px #0005; }
+
+/* A layout grid replaces independent absolute bubble positions. Leave the bottom
+   80px clear for native media controls and the top clear for the visibility switch. */
+.player .floating-comments {
+  inset: 64px 14px 80px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-content: start;
+  align-items: start;
+  gap: 12px;
+  overflow: hidden;
+  pointer-events: none;
+}
+.player .bubble {
+  position: static;
+  inset: auto;
+  transform: none;
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  max-height: 100%;
+  margin: 0;
+  padding: 9px;
+  gap: 8px;
+  overflow: hidden;
+}
+.player .bubble > div { min-width: 0; }
+.player .bubble > img { flex: 0 0 auto; width: 32px; height: 32px; }
+.player .bubble b { display: block; font-size: 12px; line-height: 1.35; }
+.player .bubble p {
+  font-size: 13px;
+  line-height: 1.4;
+  margin-top: 3px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.player .overlay-toggle { min-height: 44px; z-index: 2; line-height: 1.3; }
+.media-toolbar strong { font-weight: 600; }
+.article-page.network-theme { background: linear-gradient(135deg, #fff0df, #fff8ed); }
+.article-theme-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 14px; }
+.article-theme-controls small { color: #665b50; font: 13px/1.5 Arial, Helvetica, sans-serif; }
+
+@media (max-width: 1000px) {
+  .player .floating-comments { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .player .bubble:nth-child(n+3) { display: none; }
+  .home-tabs button { font-size: 13px; }
+}
+
+@media (max-width: 760px) {
+  .home-tabs { flex-wrap: wrap; gap: 6px; margin-left: 0; margin-right: 0; }
+  .home-tabs button { padding: 10px 18px; font-size: 14px; }
+
+  /* Auto rows allow headings, notices and localization to wrap without overlap. */
+  .home-feature .live-card {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    gap: 8px 12px;
+    align-items: start;
+    padding: 14px;
+  }
+  .home-feature .live-card > .live-label { grid-area: 1 / 1; font-size: 12px; line-height: 1.5; min-width: 0; }
+  .home-feature .live-label i { flex-shrink: 0; }
+  .home-feature .live-card > h2 { grid-area: 2 / 1; font-size: 21px; line-height: 1.25; margin: 0; }
+  .home-feature .live-card > p { grid-area: 3 / 1; font-size: 13px; line-height: 1.5; margin: 0; }
+  .home-feature .live-photo { grid-area: 1 / 2 / 4 / 3; height: auto; min-height: 128px; margin: 0; align-self: stretch; }
+  .home-feature .live-photo > img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .home-feature .live-photo .button { min-height: 44px; font-size: 12px; line-height: 1.35; padding: 8px 5px; white-space: normal; }
+
+  .player { min-height: 240px; }
+  .player .floating-comments { inset: 64px 12px 80px; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .player .bubble:nth-child(n+2) { display: none; }
+  .player .bubble { max-width: 100%; padding: 8px; }
+  .player .bubble > img { width: 28px; height: 28px; }
+  .player .bubble b { font-size: 12px; }
+  .player .bubble p { font-size: 13px; }
+  .player .overlay-toggle { top: 8px !important; right: 8px; max-width: calc(100% - 16px); font-size: 12px !important; padding: 8px 12px !important; }
+  .player .overlay-toggle svg { width: 16px; height: 16px; }
+  .media-toolbar { flex-wrap: wrap; }
+  .media-toolbar small, .media-toolbar .text-button { font-size: 12px; line-height: 1.5; }
+  .video-page > .top-line { flex-wrap: wrap; gap: 8px; }
+  .video-page .top-line .button-row { flex-wrap: wrap; gap: 8px; }
+
+  .button, .button.small, .icon-button, .round,
+  .tabs button, .post-actions > button, .comment-actions > button,
+  .section-editor-row button, .live-reactions > button { min-height: 44px; }
+  .icon-button, .round, .section-editor-row button, .live-reactions > button { min-width: 44px; }
+  .text-button { display: inline-flex; align-items: center; min-height: 44px; }
+  .top-line > .text-button, .top-line .button.small,
+  .video-page .top-line .button { font-size: 12px; padding-top: 9px; padding-bottom: 9px; }
+  .home-heading > .button { font-size: 12px; }
+  .viewer-label, .work-card p, .house-film-copy > small, .section-subtitle { font-size: 12px; line-height: 1.5; }
+  .work-card > small, .essay-card small { font-size: 11px; }
+  .creator-copy > small { font-size: 11px; line-height: 1.5; }
+  .creator-copy > p, .creator-copy .intro-description { font-size: 13px; line-height: 1.55; }
+  .identity > small, .identity > p, .identity .button { font-size: 12px; line-height: 1.5; }
+  .house-tabs button { font-size: 12px; padding: 10px 8px; }
+  .house-banner p, .start-here > p, .start-here b, .start-here small { font-size: 12px; line-height: 1.5; }
+  .start-here a { min-height: 44px; }
+  .house-film-copy > p, .post-body > p, .essay-card p, .comment p { font-size: 13px; line-height: 1.55; }
+  .house-film-copy .button, .home-sections .conversation-card a.button, .watchlist-card .button { font-size: 12px; }
+  .post-heading > a:first-child { min-height: 44px; display: inline-flex; align-items: center; }
+  .post-permalink, .thread-link, .comment b, .comment small, .comment-actions button { font-size: 12px; line-height: 1.5; }
+  .comment-compose > input, .thread .comment-compose > input, .comment-compose > .button, .thread .comment-compose > .button { font-size: 13px; min-height: 44px; }
+  .fixture-note { font-size: 12px !important; line-height: 1.6; }
+  .home-sections .conversation-card small { font-size: 12px; white-space: normal; overflow: visible; }
+  .sort select { font-size: 12px; min-height: 44px; width: 94px; }
+  .board-filters { flex-wrap: wrap; }
+  .board-filters .tabs button { min-height: 44px; font-size: 12px; }
+}
+
+@container (max-width: 400px) {
+  .actual-preview .home-feature .live-card { display: grid; height: auto; grid-template-rows: auto auto auto; }
+  .actual-preview .home-feature .live-photo { position: relative; height: auto; min-height: 128px; grid-area: 1 / 2 / 4 / 3; }
+}
+/* Bound the panoramic player independently of its native media's intrinsic width.
+   Minimum block size must not transfer through aspect-ratio into an oversized inline size. */
+.video-page .player { width:100%; min-width:0; max-width:100%; aspect-ratio:auto; height:clamp(265px,24vw,380px); min-height:0; }
+.video-page .player video { width:100%; min-width:0; max-width:100%; height:100%; }
+@media(max-width:760px){.video-page .player{height:260px;min-height:0;max-width:100%}}

@@ -1,0 +1,23 @@
+import { createContext, useContext } from 'react';
+import type { AccountSession } from '../../contracts/src';
+export type AuthPhase = 'loading' | 'idle' | 'device' | 'setup' | 'verifying' | 'setup-failed' | 'cancelled' | 'error' | 'sending-code' | 'email-code' | 'authenticated';
+export type AuthValue = {
+  session: AccountSession | null;
+  busy: boolean;
+  phase: AuthPhase;
+  attemptFailure: number;
+  message: string;
+  setupPending: boolean;
+  createWallet: () => void;
+  retrySetup: () => void;
+  connectWallet: () => void;
+  loginPasskey: () => void;
+  sendEmailCode: (email: string) => Promise<boolean>;
+  verifyEmailCode: (code: string) => void;
+  linkEmail: () => void;
+  exportWallet: () => void;
+  logout: () => Promise<void>;
+};
+const noop = () => {};
+export const AuthContext = createContext<AuthValue>({session:null,busy:true,phase:'loading',attemptFailure:0,message:'Loading sign-in…',setupPending:false,createWallet:noop,retrySetup:noop,connectWallet:noop,loginPasskey:noop,sendEmailCode:async()=>false,verifyEmailCode:noop,linkEmail:noop,exportWallet:noop,logout:async()=>{}});
+export const useAuth = () => useContext(AuthContext);

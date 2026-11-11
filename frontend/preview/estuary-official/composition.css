@@ -1,0 +1,100 @@
+/* Visual-checkpoint styles only. Estuary geometry with restrained tactile depth. */
+html,body,#root{width:100%;height:100%;min-width:0;margin:0;overflow:hidden}
+body{background:#fff5e8}
+.official-shell{display:grid;grid-template-columns:24.0625% minmax(0,1fr);height:100dvh;width:100%;font-family:Arial,Helvetica,sans-serif;color:#403329;background:#fff5e8}
+.official-sidebar{min-height:0;height:100%;display:flex;flex-direction:column;background:linear-gradient(155deg,#ffdab9 0%,#ffe4cb 64%,#ffdfc4 100%);border-right:1px solid #e9c7a75c;box-shadow:2px 0 14px #76513504;z-index:3}
+
+
+.official-wordmark>img{width:100%;height:auto;object-fit:contain}
+.official-utilities{display:flex;justify-content:space-between;align-items:center;gap:16px}
+
+.official-utilities>button{display:flex;align-items:center;justify-content:center;width:44px;height:44px;flex:0 0 44px;margin:0;padding:0;border:1px solid #fff5e966;border-radius:50%;color:#7d5c43;background:linear-gradient(145deg,#fff5e955 0%,#f9ddc533 100%);box-shadow:0 1px 2px #97623d0a,inset 0 1px 0 #ffffff70;transition:box-shadow 160ms ease,background-color 160ms ease,color 160ms ease}
+.official-utilities>button:hover{color:#005bff;box-shadow:0 3px 8px #97623d20,inset 0 1px 0 #fff}
+.official-utilities>button:active{box-shadow:inset 0 1px 3px #97623d24}
+.official-utilities svg{width:21px;height:21px;stroke-width:1.8}
+.official-menu{min-height:0;flex:0 1 auto;display:flex;flex-direction:column;gap:6px;padding:14px 0 56px;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#c7997459 transparent}
+.official-menu>button{position:relative;display:flex;align-items:center;gap:17px;flex:0 0 68px;width:100%;height:68px;min-height:68px;margin:0;padding:0 40px;border:0;border-radius:0;text-align:left;font-family:Arial,Helvetica,sans-serif;font-size:22px;font-weight:400;line-height:1.2;color:#71543f;background:transparent;transition:color 160ms ease,background-color 160ms ease,box-shadow 160ms ease}
+.official-menu>button:hover{background:#fff1e055;color:#4a382b}
+.official-menu-icon{display:flex;align-items:center;justify-content:center;flex:0 0 24px;height:100%;color:#88674e}
+.official-menu-icon svg{width:23px;height:23px;stroke-width:1.8}
+.official-menu-label{white-space:nowrap}
+.official-menu>button.selected{color:#fff;background:linear-gradient(100deg,#0052ed 0%,#0962ff 70%,#146aff 100%);box-shadow:inset 0 1px 0 #ffffff20,inset 0 -1px 0 #0044c530,0 3px 9px #005bff0b}
+.official-menu>button.selected .official-menu-icon{color:#fff}
+.official-menu>button.selected:hover{box-shadow:inset 0 0 0 1px #ffffff25,0 3px 12px #005bff1a}
+.official-panel{position:relative;min-width:0;min-height:0;height:100%;display:grid;place-items:center;overflow:auto;padding:88px 40px;background:radial-gradient(ellipse at 56% 35%,#fffbf5 0%,#fff6ea 58%,#fff1e0 100%)}
+.official-clock{position:absolute;top:26px;right:32px;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:400;line-height:1.5;letter-spacing:0;color:#806a58;font-variant-numeric:tabular-nums}
+.official-context{width:100%;max-width:440px;text-align:center;transform:translateY(10px)}
+.official-context>h1{font-family:Georgia,'Times New Roman',serif;font-size:39px;line-height:1.17;letter-spacing:-1px;font-weight:400;color:#403026;margin:0 0 18px}
+.official-context>p{margin:0 auto;max-width:400px;font-family:Arial,Helvetica,sans-serif;font-size:17px;font-weight:400;line-height:1.7;color:#7c6654}
+.official-actions{display:flex;justify-content:center;margin-top:27px}
+.official-actions>.official-primary{width:auto;min-width:0;min-height:48px;padding:12px 23px;border:1px solid #0056f1;border-radius:9px;background:linear-gradient(155deg,#116aff 0%,#0056ef 100%);color:white;box-shadow:0 3px 8px #005bff17,inset 0 1px 0 #ffffff35;font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:600;line-height:1.3;white-space:nowrap;transition:box-shadow 160ms ease,filter 160ms ease}
+.official-actions>.official-primary:hover{box-shadow:0 4px 12px #005bff24,inset 0 1px 0 #ffffff45;filter:brightness(1.035)}
+.official-actions>.official-primary:active{box-shadow:inset 0 2px 4px #003da84d}
+.official-shell button:focus-visible{outline:3px solid #005bff;outline-offset:4px}
+.official-menu>button:focus-visible{outline-offset:-5px;background-color:#fff1e0b3}
+.official-menu>button.selected:focus-visible{outline-color:#fff;outline-width:2px;outline-offset:-5px}
+.official-mobile-bar,.official-backdrop{display:none}
+@media(min-width:761px) and (max-height:700px){.official-menu>button{flex-basis:64px;height:64px;min-height:64px}.official-menu{gap:4px}}
+@media(min-width:761px) and (max-width:1100px){.official-utilities>button{width:44px;height:44px;flex-basis:44px}.official-menu>button{padding-left:25px;padding-right:18px;font-size:20px}}
+@media(max-width:760px){
+ .official-shell{grid-template-columns:minmax(0,1fr);grid-template-rows:72px minmax(0,1fr)}
+ .official-mobile-bar{display:flex;align-items:center;gap:10px;grid-column:1;grid-row:1;padding:12px 16px;background:linear-gradient(145deg,#ffdfc4,#ffead7);border-bottom:1px solid #e3c2a559;z-index:10}
+ .official-mobile-bar>img{width:111px;height:auto}
+ .official-drawer-toggle{display:flex;align-items:center;justify-content:center;width:44px;height:44px;min-width:44px;padding:8px;border-radius:8px;color:#78553d}
+ .official-drawer-toggle>svg{width:22px;height:22px;stroke-width:1.8}
+ .official-mobile-bar>.official-utilities{margin-left:auto;gap:8px}
+ .official-mobile-bar .official-utilities>button{width:44px;height:44px;flex-basis:44px}
+ .official-mobile-bar .official-utilities svg{width:18px;height:18px}
+ .official-sidebar{display:none}
+ 
+ .drawer-open>.official-sidebar{display:flex;position:fixed;left:0;top:72px;bottom:0;width:min(300px,86vw);height:calc(100dvh - 72px);box-shadow:10px 0 30px #68442617;z-index:9}
+ .official-menu{padding-top:24px;padding-bottom:56px;flex:0 1 auto;gap:6px}
+ .official-menu>button{height:64px;min-height:64px;flex-basis:64px;font-size:21px;padding-left:30px}
+ .official-panel{grid-column:1;grid-row:2;height:100%;padding:76px 26px;background:radial-gradient(ellipse at 55% 32%,#fffbf5,#fff4e5 90%)}
+ .official-clock{top:21px;right:24px;font-size:12px}
+ .official-context{max-width:340px;transform:none}
+ .official-context>h1{font-size:32px;letter-spacing:-.7px;margin-bottom:17px}
+ .official-context>p{font-size:16px;max-width:315px;line-height:1.7}
+ .official-actions{margin-top:25px}
+ .official-backdrop{display:block;position:fixed;inset:72px 0 0;z-index:8;background:#4935282e;border:0;border-radius:0;padding:0}
+}
+@media(max-width:380px){.official-mobile-bar{padding-left:10px;padding-right:10px;gap:7px}.official-mobile-bar>img{width:92px}.official-mobile-bar>.official-utilities{gap:6px}}
+@media(prefers-reduced-motion:reduce){.official-shell *{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+/* Exchange is fixed infrastructure, outside the Home presentation styles.
+   Only the panel wrapper changes; original Exchange canvas rules are untouched. */
+.official-panel.exchange-active{display:block;place-items:normal;padding:24px 28px 36px;background:#fff5e8;overflow:auto}
+@media(max-width:760px){.official-panel.exchange-active{padding:16px 14px 28px}}
+
+/* Six destinations retain bottom space on short desktop screens. */
+@media(min-width:761px) and (max-height:700px){.official-menu{gap:2px}}
+.official-context>.official-board-note{font-size:13px;line-height:1.6;margin-top:22px;color:#806a58}
+/* Approved version A candidate: prototype only; shared live assets unchanged. */
+
+.official-wordmark>.munk-logo{width:100%;height:100%}
+
+.official-mobile-bar>.munk-logo{width:111px;height:30px;flex-shrink:0}
+.official-menu>button.selected{background:linear-gradient(100deg,color-mix(in srgb,var(--munk-brand-blue) 94%,black),var(--munk-brand-blue) 70%,color-mix(in srgb,var(--munk-brand-blue) 94%,white))}
+.official-actions>.official-primary{background:var(--munk-brand-blue);border-color:var(--munk-brand-blue)}
+@media(min-width:761px) and (max-height:700px){}
+@media(max-width:380px){.official-mobile-bar>.munk-logo{width:92px}}
+
+/* One flow-based branding group. Artwork bbox: 469,36,601,552;
+   original viewBox: 450,20,630,580. Horizontal correction is 4.5/630. */
+.official-sidebar{
+ --brand-top:clamp(16px,calc(16px + (100dvh - 600px)*.054),32px);
+ --brand-gap:clamp(8px,calc(8px + (100dvh - 600px)*.067),28px);
+ --brand-bottom:clamp(16px,calc(16px + (100dvh - 600px)*.054),32px);
+ --utility-gap:24px;
+}
+.official-brand{display:flex;flex-direction:column;align-items:center;flex:0 0 auto;height:auto;position:static;padding:var(--brand-top) 0 var(--brand-bottom);gap:var(--brand-gap)}
+.official-wordmark{position:static;display:block;flex:none;width:clamp(96px,32%,128px);height:auto;aspect-ratio:630/580;transform:translateX(calc(.5px - .714286%))}
+.official-wordmark>.munk-logo{display:block;width:100%;height:auto;aspect-ratio:630/580}
+.official-brand>.official-utilities{position:static;display:flex;justify-content:center;gap:var(--utility-gap);width:auto}
+.official-menu{padding-top:0;padding-bottom:48px}
+@media(min-width:761px) and (max-height:700px){.official-menu>button{height:56px;min-height:56px;flex-basis:56px}.official-menu{gap:2px}}
+@media(max-width:760px){.official-brand{display:flex}.official-sidebar{--brand-top:28px;--brand-gap:24px;--brand-bottom:28px}.official-menu{padding-top:0}}
+
+/* Seven network destinations; Home composition and artwork remain unchanged. */
+.official-panel.catalogue-active{display:block;padding:0;overflow:hidden}
+@media(max-width:760px){.official-menu>button{height:58px;min-height:58px;flex-basis:58px}.official-menu{gap:4px;padding-bottom:48px}}
+@media(max-height:650px){.official-sidebar{--brand-top:16px;--brand-gap:10px;--brand-bottom:18px}.official-menu>button{height:48px;min-height:48px;flex-basis:48px}.official-menu{gap:2px;overflow-y:auto;padding-bottom:48px;flex:1 1 auto}}

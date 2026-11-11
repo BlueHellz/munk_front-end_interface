@@ -1,0 +1,31 @@
+{
+  "name": "munk",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": [
+    "frontend",
+    "backend",
+    "contracts"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "npm run dev --workspace frontend --",
+    "build": "npm run build --workspace frontend",
+    "preview": "npm run preview --workspace frontend --",
+    "test": "npm run test --workspace frontend",
+    "dev:backend": "npm run dev --workspace backend",
+    "db:migrate": "npm run db:migrate --workspace backend",
+    "test:backend": "npm run test --workspace backend",
+    "check:backend": "npm run check --workspace backend",
+    "check:boundaries": "node scripts/check-boundaries.mjs",
+    "check:contracts": "npm run check --workspace contracts",
+    "check": "npm run check:boundaries && npm run check:contracts && npm run check:backend && npm run build && npm test && npm run test:backend",
+    "review": "node frontend/scripts/review-package.mjs",
+    "capture": "node frontend/scripts/review-package.mjs",
+    "capture:routes": "node frontend/scripts/capture-discovery-exchange.mjs",
+    "test:browser": "npm run test:browser --workspace frontend"
+  }
+}

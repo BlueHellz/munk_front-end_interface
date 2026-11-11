@@ -1,0 +1,20 @@
+import { useVideoProgress } from './progress';
+import { useState } from 'react';
+import { Eye, EyeOff, Bookmark, MoreHorizontal } from 'lucide-react';
+import { workById, houseById, asset } from './fixtures';
+import { toggleId } from './model';
+import { useApp } from './state';
+import { Button, Thread, Image } from './components';
+export default function Video({ id }: {
+    id: string;
+}) {
+    const progress = useVideoProgress(id);
+    const { state, setState, setModal, requireAccount } = useApp();
+    const [overlay, setOverlay] = useState(true);
+    const [details, setDetails] = useState(false);
+    const [mediaError, setMediaError] = useState(false);
+    const w = workById(id)!;
+    const h = houseById(w.houseId)!;
+    const comments = state.comments.filter(c => c.target === id);
+    return <main className="video-page"><div className="top-line"><a className="text-button" href={`#/houses/${h.id}`}>← Back to {h.name}</a><div className="button-row"><Button kind="outline small" onClick={() => requireAccount(() => setModal({ type: 'live', houseId: h.id }))}>Local room preview</Button><Button kind="green small" onClick={() => setModal({ type: 'rights', workId: id })}>Content rights</Button><button className="icon-button" aria-label="Video options" onClick={() => setModal({ type: 'options' })}><MoreHorizontal /></button></div></div><header className="video-title"><h1>{w.title}</h1><span>by {h.creator.name}</span></header><div className="player" id="media-player"><video onTimeUpdate={e => progress.onTimeUpdate(e.currentTarget)} onPause={e => progress.onPause(e.currentTarget)} onLoadedMetadata={e => progress.onLoadedMetadata(e.currentTarget)} controls playsInline preload="metadata" poster={asset(w.image)} aria-label={`${w.title}: original silent sample clip`} onError={() => setMediaError(true)}><source src="/media/munk-sample.webm" type="video/webm"/><track kind="captions" src="/media/sample.vtt" srcLang="en" label="English sample captions"/>Your browser cannot play the bundled WebM sample.</video><Button kind="overlay-toggle small" onClick={() => setOverlay(!overlay)}>{overlay ? <EyeOff size={18}/> : <Eye size={18}/>} {overlay ? 'Hide comments on video' : 'Show comments on video'}</Button>{overlay && <div className="floating-comments" aria-label="Fixture comment overlay, not live">{comments.slice(0, 3).map((c, i) => <div key={c.id} className={`bubble ${['bubble-one', 'bubble-two', 'bubble-three'][i]}`}><Image name={c.author === 'Viewer 7F2A' ? 'avatar' : 'viewer'}/><div><b>{c.author}</b><p>{c.text.slice(0, 60)}</p></div></div>)}</div>}</div>{mediaError && <p className="fixture-note" role="alert">Sample media could not load or this browser does not support VP8/WebM. Playback is unavailable; no success is simulated.</p>}<div className="media-toolbar"><small><strong>Original silent sample · 8 seconds · not creator footage.</strong><br />Native controls operate the bundled clip. No streaming or live overlay service is connected.</small><button className="text-button" aria-pressed={state.likes.includes(`reaction-${id}`)} onClick={() => requireAccount(() => setState(s => ({ ...s, likes: toggleId(s.likes, `reaction-${id}`) })))}>♥ Local reaction {state.likes.includes(`reaction-${id}`) ? 1 : 0}</button></div><div className="tabs comment-tabs"><button className={!details ? 'active' : ''} aria-pressed={!details} onClick={() => setDetails(false)}>Comments {comments.length}</button><button className={details ? 'active' : ''} aria-pressed={details} onClick={() => setDetails(true)}>Details</button></div>{details ? <div className="video-details"><h2>{w.summary}</h2><p>{h.name} · {h.creator.name}</p><p>The fixture film’s full footage was not supplied. This page plays an original, CC0, 8-second silent animation to test actual HTML media controls. All film fixtures share that explicitly labeled sample.</p><Button kind="outline" onClick={() => requireAccount(() => setState(s => ({ ...s, saved: toggleId(s.saved, id) })))}><Bookmark size={16}/>{state.saved.includes(id) ? 'Bookmarked' : 'Bookmark film'}</Button></div> : <Thread target={id}/>}</main>;
+}

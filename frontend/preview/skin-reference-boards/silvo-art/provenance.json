@@ -1,0 +1,21 @@
+{
+  "mode": "Built-in image_gen tool; not CLI or API-key generation",
+  "scope": "Original AI-generated demonstration artwork. Fictional works; not real publication artwork. Existing procedural MUNK SVG artwork and sample clip retain their CC0 notices.",
+  "assets": [
+    {
+      "file": "valley-road.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: original cinematic film artwork for a clearly labeled MUNK visual demonstration, not a real documentary. Create a highly polished wide landscape photograph-like image, 16:9 composition: a solitary weathered cabin and a winding pale gravel road on the right half of a vast Scottish-Highlands-like mountain valley at first light, distant layered peaks, warm amber and peach sunrise illuminating pale grasses and cloud edges, deep slate mountain silhouettes, tactile fine film grain, gentle atmospheric haze, exceptional natural detail. Left third is calm dark mountain shadow with nuanced texture for readable overlaid interface typography, subject cabin and illuminated road on right third. Rich cinematic contrast, warm ivory sky, restrained natural colors, editorial independent-film poster quality. No text, logos, branding, people, vehicles, copyrighted characters, or watermarks. Original scene, do not recreate any existing film still.",
+      "path": "frontend/preview/skin-reference-boards/silvo-art/valley-road.png"
+    },
+    {
+      "file": "lighthouse.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: original cinematic demonstration film poster artwork, portrait 2:3, no text. A remote white lighthouse above a dramatic Atlantic coastline, cliffs and dark turquoise sea, soft amber evening sun, pale ivory haze at the horizon, windswept dune grasses in foreground, poetic independent-documentary photograph, rich restrained contrast, finely detailed rocks and sea spray, subtle analog film grain. Lighthouse in upper right third, foreground path leading toward it. No people, logos, lettering, watermarks, copyrighted characters or existing film references. Original scene. Fits a warm peach/ivory media-center brand while retaining natural deep blue-green sea.",
+      "path": "frontend/preview/skin-reference-boards/silvo-art/lighthouse.png"
+    },
+    {
+      "file": "observatory.png",
+      "prompt": "Use case: photorealistic-natural. Asset type: original cinematic demonstration film poster artwork, portrait 2:3, no text. A solitary small astronomical observatory dome on a rocky desert ridge at blue hour, enormous lucid night sky and delicate stars, peach band of last sunlight on the distant horizon, foreground sandstone and dry grass, contemplative independent-film still, textured and richly detailed, subtle film grain, deep charcoal sky with muted blue and warm amber ground. Observational natural photography, dome in lower middle of image with generous sky. No people, logos, text, watermarks, sci-fi spacecraft, branded objects, or copyrighted characters. Original scene.",
+      "path": "frontend/preview/skin-reference-boards/silvo-art/observatory.png"
+    }
+  ]
+}

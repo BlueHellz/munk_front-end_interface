@@ -1,0 +1,2 @@
+:root{--munk-brand-blue:#0053fc}
+.munk-logo{display:block;color:var(--munk-logo-color,var(--munk-brand-blue));overflow:visible}.munk-logo-face{transform-box:fill-box;transform-origin:center;transition:transform 180ms ease}.munk-logo:hover .munk-logo-face,:focus-visible>.munk-logo .munk-logo-face,.logo-demo:focus-visible .munk-logo-face{transform:rotate(-2deg)}@media(prefers-reduced-motion:reduce){.munk-logo-face{transition:none!important;transform:none!important}}

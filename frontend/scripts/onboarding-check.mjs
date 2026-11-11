@@ -1,0 +1,14 @@
+import './paths.mjs';
+import {build} from 'esbuild';import assert from 'node:assert/strict';import {mkdir}from'node:fs/promises';
+await mkdir('.qa',{recursive:true});await build({entryPoints:['src/auth-flow.ts'],outfile:'.qa/auth-flow.mjs',bundle:true,platform:'node',format:'esm'});
+const {finishAccountSetup,cancelledAuthentication}=await import('../.qa/auth-flow.mjs');
+let creates=0,exchanges=0,exists=false;const identities=[],phases=[];
+const session={account:{id:'real-session-shape',displayName:'Test',reviewer:false},csrfToken:'test',expiresAt:'later'};
+const options={userId:'same-privy-account',create:true,markPending:id=>identities.push(id),phase:p=>phases.push(p),active:()=>true,refreshWallet:async()=>exists,createWallet:async()=>{creates++;if(creates===1)throw Error('Simulated wallet setup outage');exists=true;},exchange:async()=>{exchanges++;return session;}};
+await assert.rejects(finishAccountSetup(options),/outage/);assert.equal(exchanges,0);
+assert.deepEqual(await finishAccountSetup(options),session);assert.equal(creates,2);assert.equal(exchanges,1);assert.deepEqual(identities,['same-privy-account','same-privy-account']);
+await finishAccountSetup(options);assert.equal(creates,2,'refresh sees existing wallet, so retry never creates another');
+await finishAccountSetup({...options,create:false,refreshWallet:async()=>{throw Error('Existing-wallet login must not create an embedded wallet');}});assert.equal(creates,2);
+await assert.rejects(finishAccountSetup({...options,active:()=>false}),{name:'AbortError'});assert.equal(creates,2);
+assert.ok(cancelledAuthentication('exited_auth_flow'));assert.ok(cancelledAuthentication(new DOMException('Not completed','NotAllowedError')));assert.equal(cancelledAuthentication(Error('Network unavailable')),false);
+assert.deepEqual(phases.slice(0,3),['setup','setup','verifying']);console.log('Onboarding setup PASS: same account retained across failure/retry; no session before setup; ambiguous success refreshed; existing-wallet login never creates a wallet; stale attempts rejected; cancellation distinct from failure.');
