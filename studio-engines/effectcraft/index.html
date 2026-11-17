@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="./coi-serviceworker.min.js"></script>
+  <title>Munkee Studio</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #121418; color: #F0F2F5; font-family: system-ui, sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+    .engine-header { height: 38px; background: #181A1F; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; font-size: 0.78rem; }
+    .engine-tag { color: #0066FF; font-weight: 800; letter-spacing: 0.05em; }
+    .viewport { flex: 1; position: relative; background: #0b0c0f; display: flex; align-items: center; justify-content: center; }
+    canvas { width: 100%; height: 100%; }
+  </style>
+</head>
+<body>
+  <div class="engine-header">
+    <span class="engine-tag">MUNKEE STUDIO EFFECTCRAFT ENGINE</span>
+    <span>COOP/COEP Active · SharedArrayBuffer Enabled</span>
+  </div>
+  <div class="viewport">
+    <canvas id="engine-canvas"></canvas>
+  </div>
+  <script>
+    const canvas = document.getElementById('engine-canvas');
+    const ctx = canvas.getContext('2d');
+    function resize() { canvas.width = window.innerWidth * window.devicePixelRatio; canvas.height = window.innerHeight * window.devicePixelRatio; draw(); }
+    function draw() {
+      if(!ctx) return;
+      ctx.fillStyle = '#0b0c0f'; ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.strokeStyle = '#0066FF'; ctx.lineWidth = 2; ctx.strokeRect(40, 40, canvas.width - 80, canvas.height - 80);
+      ctx.fillStyle = '#FFFFFF'; ctx.font = '20px sans-serif'; ctx.fillText('Munkee Studio EFFECTCRAFT Engine Output Viewport', 60, 90);
+    }
+    window.addEventListener('resize', resize); resize();
+    window.MunkeeBridge = {
+      injectAsset: function(asset) { console.log('Asset injected:', asset); },
+      saveDraft: function() { return { status: 'saved', target: 'munkee_studio/user/effectcraft_draft.json', timestamp: Date.now() }; },
+      publishManifest: function() { return { status: 'published', manifest: 'munkee_studio/user/effectcraft_export', timestamp: Date.now() }; }
+    };
+    window.addEventListener('message', function(e) { if(e.data && e.data.type === 'INJECT_ASSET') window.MunkeeBridge.injectAsset(e.data.asset); });
+  </script>
+</body>
+</html>
