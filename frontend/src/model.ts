@@ -1,7 +1,9 @@
 import { series } from './discovery-model';
 import { defaultDesign, discoveryDesign, discoverySectionIds, houses, works, posts, sectionIds, type HomeDesign, type Comment, initialComments } from './fixtures';
 export type Route = {
-    type: 'home' | 'board' | 'myHouses' | 'signIn' | 'accountSettings' | 'appearance' | 'settings' | 'profile' | 'search' | 'messages';
+    type: 'home' | 'board' | 'myHouses' | 'signIn' | 'accountSettings' | 'appearance' | 'settings' | 'profile' | 'search' | 'messages' | 'munkeeStudio';
+} | {
+    type: 'wallet'; mode: 'viewer' | 'house'; houseId?: string;
 } | {
     type: 'house' | 'video' | 'article' | 'post' | 'series' | 'serverHouse' | 'serverVideo';
     id: string;
@@ -16,6 +18,11 @@ export function parseRoute(hash: string): Route {
     const path = hash.replace(/^#/, '').split('?')[0];
     if (!path || path === '/' || path === '/home')
         return { type: 'home' };
+    if(path==='/munkee-studio'||path==='/studio')return {type:'munkeeStudio'};
+    if(path==='/wallet'||path==='/wallet/viewer')return {type:'wallet',mode:'viewer'};
+    if(path==='/wallet/house')return {type:'wallet',mode:'house',houseId:'off-grid'};
+    const walletHouse=path.match(/^\/wallet\/house\/([a-z0-9-]+)$/);
+    if(walletHouse)return {type:'wallet',mode:'house',houseId:walletHouse[1]};
     if(path==='/settings')return {type:'settings'};
     if(path==='/profile')return {type:'profile'};
     if(path==='/search')return {type:'search'};

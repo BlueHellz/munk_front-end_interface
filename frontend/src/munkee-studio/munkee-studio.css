@@ -1,0 +1,904 @@
+/* MUNKEE STUDIO - Visual Language & Responsive Multi-Window Styles */
+
+.munkee-studio-page {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #181A1F;
+    color: #F0F2F5;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Header Bar (Matches Settings Header in Reference Image 2) */
+.munkee-studio-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    padding: 0 24px;
+    background-color: #181A1F;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-sizing: border-box;
+    z-index: 50;
+}
+
+.header-left-title {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.back-arrow-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: #A0A5B5;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.back-arrow-btn:hover {
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.header-icon-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.studio-header-icon {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+.header-icon-title h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+.header-right-tools {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.munk-blue-logo-wrap {
+    display: flex;
+    align-items: center;
+    color: #0066FF;
+}
+
+.studio-clock-wrap {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #A0A5B5;
+}
+
+.header-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: #A0A5B5;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.header-close-btn:hover {
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Stage & Category Launcher Screen (Matching Reference Image 2) */
+.munkee-studio-stage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    box-sizing: border-box;
+    position: relative;
+    overflow-y: auto;
+}
+
+.munkee-launcher-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-height: calc(100vh - 140px);
+    gap: 32px;
+}
+
+.launcher-grid-2x2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    width: 100%;
+    max-width: 960px;
+    box-sizing: border-box;
+}
+
+.category-launcher-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    height: 180px;
+    background-color: #22252C;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+    outline: none;
+    box-sizing: border-box;
+}
+
+.category-launcher-card:hover {
+    background-color: #2A2E37;
+    border-color: #0066FF;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0, 102, 255, 0.15);
+}
+
+.category-launcher-card:active {
+    transform: translateY(0);
+}
+
+.card-icon-frame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+}
+
+.category-launcher-card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.launcher-subtitle-text {
+    font-size: 0.92rem;
+    color: #8C92A4;
+    margin: 0;
+    text-align: center;
+}
+
+/* Multi-Window Viewport Layer */
+.windows-viewport-layer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100vh - 124px);
+    box-sizing: border-box;
+}
+
+/* Window Chrome & Browser Tab Strip */
+.studio-window-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-color: #121418;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+    box-sizing: border-box;
+    position: relative;
+}
+
+.window-chrome-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 42px;
+    background-color: #1C1F26;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 0 12px;
+    box-sizing: border-box;
+}
+
+.window-category-indicator {
+    display: flex;
+    align-items: center;
+}
+
+.category-tag {
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #0066FF;
+    background: rgba(0, 102, 255, 0.12);
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+.browser-tab-strip {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+    margin: 0 16px;
+    overflow-x: auto;
+}
+
+.browser-tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    padding: 6px 14px;
+    font-size: 0.82rem;
+    color: #8C92A4;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.browser-tab:hover {
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.browser-tab.active {
+    background-color: #121418;
+    color: #FFFFFF;
+    border-color: rgba(255, 255, 255, 0.12);
+    font-weight: 600;
+}
+
+.tab-close-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: #8C92A4;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 50%;
+}
+
+.tab-close-icon:hover {
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.add-tab-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: transparent;
+    border: none;
+    color: #8C92A4;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.add-tab-btn:hover {
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.window-frame-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.win-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    background: transparent;
+    border: none;
+    color: #8C92A4;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.win-btn:hover {
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.win-btn.close:hover {
+    background: #E53935;
+    color: #FFFFFF;
+}
+
+/* Action Bar (Save vs Publish Header) */
+.window-action-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 48px;
+    background-color: #181A1F;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 0 16px;
+    box-sizing: border-box;
+}
+
+.bar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.bin-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #D0D4E0;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.bin-toggle-btn.active {
+    background: rgba(0, 102, 255, 0.15);
+    border-color: rgba(0, 102, 255, 0.4);
+    color: #0066FF;
+}
+
+.canvas-tool-group {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.tool-icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    color: #8C92A4;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.tool-icon-btn:hover {
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.bar-center-playback {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    padding: 4px 12px;
+}
+
+.play-btn, .reset-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.zoom-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    color: #8C92A4;
+}
+
+.zoom-controls button {
+    background: transparent;
+    border: none;
+    color: #8C92A4;
+    cursor: pointer;
+}
+
+.bar-right-two-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.save-btn-outline {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #FFFFFF;
+    border-radius: 8px;
+    padding: 7px 16px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.save-btn-outline:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.publish-btn-electric {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #0066FF;
+    border: none;
+    color: #FFFFFF;
+    border-radius: 8px;
+    padding: 7px 18px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 102, 255, 0.35);
+    transition: all 0.2s ease;
+}
+
+.publish-btn-electric:hover {
+    background-color: #1A75FF;
+    box-shadow: 0 6px 18px rgba(0, 102, 255, 0.5);
+}
+
+/* Workspace Body & Studio Bin Drawer */
+.window-workspace-body {
+    display: flex;
+    flex: 1;
+    height: calc(100% - 90px);
+    position: relative;
+    overflow: hidden;
+}
+
+.studio-bin-sidebar {
+    width: 240px;
+    background-color: #181A1F;
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.bin-collapsed-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #181A1F;
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+    color: #A0A5B5;
+    padding: 12px;
+    cursor: pointer;
+    writing-mode: vertical-lr;
+    border: none;
+}
+
+.bin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.bin-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.text-electric {
+    color: #0066FF;
+}
+
+.bin-title h3 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.bin-close-btn {
+    background: transparent;
+    border: none;
+    color: #8C92A4;
+    cursor: pointer;
+}
+
+.bin-search-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    padding: 6px 10px;
+    margin-bottom: 10px;
+}
+
+.bin-search-box input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #FFFFFF;
+    font-size: 0.78rem;
+    width: 100%;
+}
+
+.bin-filter-pills {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 12px;
+    overflow-x: auto;
+}
+
+.bin-filter-pill {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #8C92A4;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.bin-filter-pill.active {
+    background: #0066FF;
+    border-color: #0066FF;
+    color: #FFFFFF;
+}
+
+.bin-asset-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.bin-asset-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #22252C;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    padding: 8px;
+    cursor: grab;
+    transition: all 0.2s ease;
+}
+
+.bin-asset-card:hover {
+    background: #2A2E37;
+    border-color: rgba(0, 102, 255, 0.3);
+}
+
+.asset-thumb {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.asset-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.asset-type-icon {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #0066FF;
+    border-radius: 3px;
+    padding: 1px;
+    display: flex;
+}
+
+.asset-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+}
+
+.asset-filename {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #FFFFFF;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.asset-info small {
+    font-size: 0.68rem;
+    color: #8C92A4;
+}
+
+.drag-handle {
+    color: #6C7284;
+}
+
+/* Studio Canvas Area */
+.studio-canvas-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: #121418;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* 12 DOMAIN-SPECIFIC WORKSPACE STYLES */
+
+/* 1. FilmCraft (Video Timeline) */
+.filmcraft-workspace { display: flex; flex-direction: column; width: 100%; height: 100%; }
+.filmcraft-monitors-row { display: flex; gap: 12px; height: 55%; padding: 12px; box-sizing: border-box; }
+.monitor-pane { flex: 1; background: #181A1F; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; }
+.monitor-header { display: flex; justify-content: space-between; padding: 6px 12px; background: #22252C; font-size: 0.72rem; color: #8C92A4; }
+.monitor-tag.program { color: #0066FF; font-weight: 700; }
+.monitor-screen { flex: 1; position: relative; overflow: hidden; }
+.monitor-screen img { width: 100%; height: 100%; object-fit: cover; }
+.timecode-overlay { position: absolute; bottom: 8px; right: 12px; background: rgba(0,0,0,0.7); color: #FFF; font-family: monospace; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; }
+.filmcraft-inspector { width: 220px; background: #181A1F; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; font-size: 0.78rem; }
+.inspector-header { display: flex; gap: 6px; color: #0066FF; font-weight: 700; margin-bottom: 12px; }
+.inspector-section h4 { margin: 8px 0 4px 0; color: #A0A5B5; font-size: 0.72rem; }
+.color-wheels-mini { display: flex; justify-content: space-between; margin-top: 8px; }
+.wheel-box { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.wheel-dot { width: 36px; height: 36px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); }
+.wheel-dot.lift { background: radial-gradient(#0066FF, transparent); }
+.wheel-dot.gamma { background: radial-gradient(#7C4DFF, transparent); }
+.wheel-dot.gain { background: radial-gradient(#FF477E, transparent); }
+
+.filmcraft-transport-bar { display: flex; justify-content: space-between; align-items: center; height: 38px; background: #1C1F26; border-y: 1px solid rgba(255,255,255,0.08); padding: 0 16px; }
+.transport-center-controls { display: flex; align-items: center; gap: 12px; color: #FFF; }
+.play-circle-btn { width: 28px; height: 28px; border-radius: 50%; background: #0066FF; border: none; color: #FFF; display: flex; align-items: center; justify-content: center; }
+.timecode-display { font-family: monospace; color: #0066FF; font-weight: 700; }
+
+.filmcraft-timeline-container { flex: 1; display: flex; background: #181A1F; position: relative; overflow: hidden; }
+.timeline-headers-col { width: 140px; background: #22252C; border-right: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; }
+.track-head { height: 36px; display: flex; align-items: center; gap: 6px; padding: 0 8px; font-size: 0.72rem; color: #8C92A4; border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; }
+.track-head.active { color: #FFF; background: rgba(0,102,255,0.15); }
+.timeline-tracks-viewport { flex: 1; position: relative; display: flex; flex-direction: column; }
+.playhead-line { position: absolute; top: 0; bottom: 0; width: 2px; background: #0066FF; z-index: 20; }
+.playhead-handle { width: 10px; height: 10px; background: #0066FF; transform: translateX(-4px); border-radius: 2px; }
+.track-row { height: 36px; position: relative; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.clip-block { position: absolute; top: 4px; bottom: 4px; border-radius: 4px; font-size: 0.7rem; color: #FFF; padding: 4px 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.video-block { background: rgba(124,77,255,0.4); border: 1px solid #7C4DFF; }
+.video-main { background: rgba(0,102,255,0.4); border: 1px solid #0066FF; }
+.audio-block { background: rgba(0,229,255,0.3); border: 1px solid #00E5FF; }
+.music-block { background: rgba(255,71,126,0.3); border: 1px solid #FF477E; }
+
+/* 2. EffectCraft (Motion & VFX) */
+.effectcraft-workspace { display: flex; flex-direction: column; width: 100%; height: 100%; }
+.effectcraft-top-split { display: flex; height: 65%; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.vfx-comp-canvas { flex: 1; position: relative; overflow: hidden; }
+.vfx-viewport-frame { width: 100%; height: 100%; position: relative; }
+.vfx-viewport-frame img { width: 100%; height: 100%; object-fit: cover; }
+.vfx-bounding-box { position: absolute; border: 1px dashed #0066FF; pointer-events: none; }
+.vfx-bounding-box .handle { position: absolute; width: 8px; height: 8px; background: #0066FF; }
+.vfx-inspector { width: 240px; background: #181A1F; border-left: 1px solid rgba(255,255,255,0.08); padding: 12px; font-size: 0.8rem; }
+.effectcraft-node-graph { flex: 1; background: #121418; padding: 12px; display: flex; flex-direction: column; }
+.node-canvas-grid { display: flex; align-items: center; justify-content: space-around; flex: 1; position: relative; }
+.vfx-node-card { background: #22252C; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 14px; font-size: 0.78rem; cursor: pointer; text-align: center; }
+.vfx-node-card.active { border-color: #0066FF; box-shadow: 0 0 12px rgba(0,102,255,0.4); }
+
+/* 3. AniCraft (2D Animation) */
+.anicraft-workspace { display: flex; flex-direction: column; width: 100%; height: 100%; }
+.anicraft-main-stage { display: flex; flex: 1; position: relative; }
+.ani-toolbar { width: 44px; background: #181A1F; border-right: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 8px; padding: 8px; }
+.ani-tool-btn { background: transparent; border: none; color: #8C92A4; padding: 8px; border-radius: 6px; cursor: pointer; }
+.ani-tool-btn.active { background: #0066FF; color: #FFF; }
+.ani-cel-canvas { flex: 1; background: #1A1D24; display: flex; align-items: center; justify-content: center; position: relative; }
+.cel-overlay-container { width: 80%; height: 80%; position: relative; border: 1px solid rgba(255,255,255,0.1); }
+.cel-overlay-container img { width: 100%; height: 100%; object-fit: contain; }
+.onion-skin-ghost { position: absolute; inset: 0; opacity: 0.35; filter: hue-rotate(180deg); }
+.ani-exposure-sheet { height: 110px; background: #181A1F; border-top: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; padding: 8px 12px; }
+.xsheet-controls { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.cel-frames-row { display: flex; gap: 8px; overflow-x: auto; }
+.cel-frame-card { width: 70px; height: 60px; background: #22252C; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 4px; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+.cel-frame-card.active { border-color: #0066FF; background: rgba(0,102,255,0.15); }
+.frame-num { font-size: 0.65rem; color: #A0A5B5; }
+
+/* 4. PhotoCraft (Photo & Raster) */
+.photocraft-workspace { display: flex; width: 100%; height: 100%; }
+.raster-tool-strip { width: 44px; background: #181A1F; border-right: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 8px; padding: 8px; }
+.raster-tool-btn { background: transparent; border: none; color: #8C92A4; padding: 8px; border-radius: 6px; cursor: pointer; }
+.raster-tool-btn.active { background: #0066FF; color: #FFF; }
+.raster-canvas-viewport { flex: 1; position: relative; background: #121418; display: flex; align-items: center; justify-content: center; }
+.raster-artboard { width: 85%; height: 85%; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 12px 32px rgba(0,0,0,0.5); }
+.raster-artboard img { width: 100%; height: 100%; object-fit: cover; }
+.raster-right-panel { width: 220px; background: #181A1F; border-left: 1px solid rgba(255,255,255,0.08); padding: 12px; display: flex; flex-direction: column; gap: 12px; }
+.color-picker-wheel { display: flex; gap: 8px; margin-top: 6px; }
+.swatch-circle { width: 24px; height: 24px; border-radius: 50%; cursor: pointer; }
+.layer-row { display: flex; align-items: center; gap: 8px; padding: 6px; background: #22252C; border-radius: 6px; font-size: 0.75rem; margin-top: 4px; cursor: pointer; }
+.layer-row.active { border: 1px solid #0066FF; color: #FFF; }
+
+/* 5. VectorCraft (Vector & Logo) */
+.vectorcraft-workspace { display: flex; width: 100%; height: 100%; }
+.vector-tool-strip { width: 44px; background: #181A1F; border-right: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 8px; padding: 8px; }
+.vector-tool-btn { background: transparent; border: none; color: #8C92A4; padding: 8px; border-radius: 6px; cursor: pointer; }
+.vector-tool-btn.active { background: #0066FF; color: #FFF; }
+.vector-artboard-stage { flex: 1; background: #121418; display: flex; align-items: center; justify-content: center; }
+.vector-svg-viewport { width: 80%; height: 80%; background: #181A1F; border: 1px solid rgba(255,255,255,0.1); }
+.vector-right-panel { width: 220px; background: #181A1F; border-left: 1px solid rgba(255,255,255,0.08); padding: 12px; display: flex; flex-direction: column; gap: 12px; }
+.pathfinder-row { display: flex; gap: 4px; margin-top: 6px; }
+.pf-btn { flex: 1; font-size: 0.68rem; padding: 4px; background: #22252C; border: 1px solid rgba(255,255,255,0.08); color: #FFF; border-radius: 4px; cursor: pointer; }
+.export-svg-btn { display: flex; align-items: center; justify-content: center; gap: 6px; background: #0066FF; color: #FFF; border: none; padding: 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; cursor: pointer; width: 100%; }
+
+/* 6. LightCraft (RAW & Color) */
+.lightcraft-workspace { display: flex; flex-direction: column; width: 100%; height: 100%; }
+.lightcraft-main { flex: 1; display: flex; }
+.color-preview-stage { flex: 1; position: relative; background: #121418; padding: 12px; }
+.split-view-container { display: flex; width: 100%; height: 100%; position: relative; }
+.split-pane { flex: 1; position: relative; overflow: hidden; }
+.split-pane img { width: 100%; height: 100%; object-fit: cover; }
+.split-pane.left img { filter: contrast(80%) saturate(70%); }
+.split-pane.right img { filter: contrast(110%) saturate(125%); }
+.split-divider { width: 2px; background: #0066FF; }
+.split-tag { position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.7); color: #FFF; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; }
+.rgb-histogram-box { position: absolute; top: 20px; right: 20px; width: 140px; height: 70px; background: rgba(0,0,0,0.75); border-radius: 6px; padding: 6px; }
+.histogram-bars { display: flex; align-items: flex-end; justify-content: space-around; height: 45px; margin-top: 4px; }
+.histogram-bars .bar { width: 20px; border-radius: 2px; }
+.histogram-bars .bar.red { background: #FF477E; }
+.histogram-bars .bar.green { background: #00E5FF; }
+.histogram-bars .bar.blue { background: #0066FF; }
+.color-sliders-panel { width: 220px; background: #181A1F; border-left: 1px solid rgba(255,255,255,0.08); padding: 12px; display: flex; flex-direction: column; gap: 12px; }
+.lightcraft-filmstrip { height: 80px; background: #181A1F; border-top: 1px solid rgba(255,255,255,0.08); display: flex; gap: 8px; padding: 8px; overflow-x: auto; }
+.filmstrip-photo-thumb { width: 90px; height: 100%; border-radius: 6px; overflow: hidden; cursor: pointer; opacity: 0.6; }
+.filmstrip-photo-thumb.active { opacity: 1; border: 2px solid #0066FF; }
+.filmstrip-photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+/* 7. DesignCraft (Print & Layout) */
+.designcraft-workspace { display: flex; width: 100%; height: 100%; }
+.page-nav-sidebar { width: 120px; background: #181A1F; border-right: 1px solid rgba(255,255,255,0.08); padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+.page-thumb-card { background: #22252C; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 6px; cursor: pointer; text-align: center; }
+.page-thumb-card.active { border-color: #0066FF; }
+.editorial-page-stage { flex: 1; background: #121418; display: flex; align-items: center; justify-content: center; }
+.print-page-artboard { width: 320px; height: 440px; background: #FFF; color: #111; padding: 24px; box-shadow: 0 12px 32px rgba(0,0,0,0.6); position: relative; }
+.editorial-right-panel { width: 220px; background: #181A1F; border-left: 1px solid rgba(255,255,255,0.08); padding: 12px; }
+
+/* 8. FigCraft (UI & Prototype) */
+.figcraft-workspace { display: flex; width: 100%; height: 100%; }
+.fig-tree-sidebar { width: 180px; background: #181A1F; border-right: 1px solid rgba(255,255,255,0.08); padding: 12px; }
+.frame-tree-item { display: flex; align-items: center; gap: 8px; padding: 6px; font-size: 0.78rem; color: #8C92A4; cursor: pointer; border-radius: 4px; }
+.frame-tree-item.active { color: #FFF; background: rgba(0,102,255,0.15); }
+.fig-canvas-stage { flex: 1; background: #121418; display: flex; align-items: center; justify-content: center; }
+.artboard-device-frame { width: 260px; height: 460px; background: #181A1F; border: 2px solid #0066FF; border-radius: 20px; overflow: hidden; box-shadow: 0 16px 40px rgba(0,0,0,0.6); }
+.mock-ui-header { display: flex; align-items: center; gap: 8px; padding: 12px; font-size: 0.8rem; font-weight: 700; color: #FFF; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.brand-dot { width: 8px; height: 8px; border-radius: 50%; background: #0066FF; }
+.mock-ui-hero { width: 100%; height: 180px; overflow: hidden; }
+.mock-ui-hero img { width: 100%; height: 100%; object-fit: cover; }
+.mock-ui-btn { margin: 16px; width: calc(100% - 32px); background: #0066FF; color: #FFF; border: none; padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+.fig-right-panel { width: 220px; background: #181A1F; border-left: 1px solid rgba(255,255,255,0.08); padding: 12px; }
+.css-token-code { display: block; background: #121418; padding: 8px; border-radius: 6px; font-size: 0.7rem; color: #00E5FF; }
+
+/* 9. SoundCraft (Music & DAW) */
+.soundcraft-workspace { display: flex; flex-direction: column; width: 100%; height: 100%; }
+.daw-top-bar { display: flex; justify-content: space-between; align-items: center; height: 42px; background: #1C1F26; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0 16px; }
+.bpm-controls { display: flex; align-items: center; gap: 12px; }
+.bpm-box { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: #8C92A4; }
+.bpm-box input { width: 44px; background: #121418; border: 1px solid rgba(255,255,255,0.1); color: #0066FF; font-weight: 800; text-align: center; border-radius: 4px; }
+.daw-transport-center { display: flex; align-items: center; gap: 12px; }
+.rec-btn { background: transparent; border: none; color: #E53935; cursor: pointer; }
+.rec-btn.active { color: #FF1744; filter: drop-shadow(0 0 6px #FF1744); }
+.play-btn-large { width: 32px; height: 32px; border-radius: 50%; background: #0066FF; border: none; color: #FFF; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.daw-arrangement-view { flex: 1; background: #121418; display: flex; flex-direction: column; }
+.daw-track-row { height: 42px; display: flex; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.track-header-cell { width: 140px; background: #181A1F; border-right: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 8px; padding: 0 8px; font-size: 0.75rem; color: #FFF; }
+.track-indicator-dot { width: 8px; height: 8px; border-radius: 50%; }
+.ms-buttons { display: flex; gap: 2px; margin-left: auto; }
+.m-btn, .s-btn { font-size: 0.6rem; width: 16px; height: 16px; border: none; background: #22252C; color: #FFF; border-radius: 2px; cursor: pointer; }
+.track-lane-viewport { flex: 1; position: relative; }
+.audio-clip-block { position: absolute; top: 4px; bottom: 4px; border-radius: 4px; border: 1px solid; }
+.daw-mixer-console { height: 110px; background: #181A1F; border-top: 1px solid rgba(255,255,255,0.08); display: flex; gap: 12px; padding: 8px 16px; }
+.mixer-fader-strip { width: 50px; background: #22252C; border-radius: 6px; padding: 6px 4px; display: flex; flex-direction: column; align-items: center; position: relative; }
+.mixer-fader-strip.master { border: 1px solid #0066FF; }
+.strip-title { font-size: 0.65rem; color: #FFF; font-weight: 700; }
+.fader-track { width: 4px; flex: 1; background: #121418; position: relative; margin: 4px 0; }
+.fader-fill { width: 100%; background: #0066FF; position: absolute; bottom: 0; }
+.fader-knob { width: 14px; height: 8px; background: #FFF; position: absolute; left: -5px; border-radius: 2px; }
+
+/* 10. Audio Post & FX */
+.audiopost-workspace { display: flex; flex-direction: column; width: 100%; height: 100%; }
+.waveform-display-stage { flex: 1; background: #121418; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.waveform-channel { flex: 1; background: #181A1F; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 8px; position: relative; }
+.channel-tag { font-size: 0.68rem; color: #8C92A4; font-weight: 700; }
+.waveform-svg-box { width: 100%; height: 80px; }
+.waveform-svg { width: 100%; height: 100%; }
+.fx-rack-container { height: 110px; background: #181A1F; border-top: 1px solid rgba(255,255,255,0.08); display: flex; gap: 12px; padding: 8px 16px; }
+.fx-rack-unit { flex: 1; background: #22252C; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 8px; }
+.fx-rack-unit.active { border-color: #0066FF; }
+.rack-header { display: flex; align-items: center; justify-content: space-between; font-size: 0.75rem; color: #FFF; margin-bottom: 6px; }
+.rack-knobs { display: flex; justify-content: space-around; margin-top: 4px; }
+.knob-box { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.knob-ring { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #0066FF; }
+
+/* 11. TextureCraft (Texture Painter) */
+.texturecraft-workspace { display: flex; width: 100%; height: 100%; }
+.texture-tool-strip { width: 44px; background: #181A1F; border-right: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 8px; padding: 8px; }
+.tex-btn { background: transparent; border: none; color: #8C92A4; padding: 8px; border-radius: 6px; cursor: pointer; }
+.tex-btn.active { background: #0066FF; color: #FFF; }
+.mesh-viewport { flex: 1; background: #121418; position: relative; display: flex; align-items: center; justify-content: center; }
+.viewport-overlay-controls { position: absolute; top: 12px; left: 12px; z-index: 10; }
+.wire-toggle-btn { display: flex; align-items: center; gap: 6px; background: #22252C; border: 1px solid rgba(255,255,255,0.1); color: #FFF; padding: 6px 12px; border-radius: 6px; font-size: 0.78rem; cursor: pointer; }
+.wire-toggle-btn.active { border-color: #0066FF; color: #0066FF; }
+.orbit-gizmo { position: absolute; bottom: 16px; right: 16px; display: flex; gap: 6px; font-weight: 800; font-size: 0.72rem; }
+.orbit-gizmo span { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #FFF; }
+.axis-x { background: #E53935; } .axis-y { background: #43A047; } .axis-z { background: #1E88E5; }
+.pbr-channels-panel { width: 220px; background: #181A1F; border-left: 1px solid rgba(255,255,255,0.08); padding: 12px; }
+
+/* 12. MaterialCraft (PBR Materials) */
+.materialcraft-workspace { display: flex; width: 100%; height: 100%; }
+.shader-preview-box { width: 220px; background: #181A1F; border-right: 1px solid rgba(255,255,255,0.08); padding: 12px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.preview-header { display: flex; align-items: center; gap: 6px; color: #0066FF; font-size: 0.78rem; font-weight: 700; margin-bottom: 12px; }
+.sphere-render-frame { width: 160px; height: 160px; border-radius: 50%; overflow: hidden; border: 2px solid rgba(255,255,255,0.15); box-shadow: 0 12px 32px rgba(0,0,0,0.6); margin-bottom: 12px; }
+.sphere-render-frame img { width: 100%; height: 100%; object-fit: cover; }
+.procedural-node-graph { flex: 1; background: #121418; padding: 12px; display: flex; flex-direction: column; }
+.shader-nodes-canvas { display: flex; align-items: center; justify-content: space-around; flex: 1; }
+.node-block { background: #22252C; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; font-size: 0.78rem; width: 130px; }
+.node-block.output { border-color: #0066FF; box-shadow: 0 0 12px rgba(0,102,255,0.3); }
+.ramp-preview-bar { height: 12px; background: linear-gradient(90deg, #000, #0066FF, #FFF); border-radius: 3px; margin-top: 6px; }
+
+/* Panel & Common Utilities */
+.panel-box { background: #22252C; border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 10px; margin-bottom: 8px; font-size: 0.78rem; }
+.box-header { display: flex; align-items: center; gap: 6px; color: #0066FF; font-size: 0.72rem; font-weight: 800; margin-bottom: 8px; }
+.slider-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 0.72rem; color: #8C92A4; margin-top: 6px; }
+.slider-row input[type="range"] { flex: 1; accent-color: #0066FF; }
+.vfx-select { background: #121418; border: 1px solid rgba(255,255,255,0.1); color: #FFF; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; width: 100%; }
+
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
+    .launcher-grid-2x2 { grid-template-columns: 1fr; }
+    .window-chrome-bar { flex-wrap: wrap; height: auto; padding: 8px; }
+    .browser-tab-strip { width: 100%; margin: 6px 0; }
+    .studio-bin-sidebar { width: 100%; height: 180px; }
+    .window-workspace-body { flex-direction: column; }
+    .filmcraft-monitors-row { flex-direction: column; height: auto; }
+    .raster-right-panel, .vfx-inspector, .color-sliders-panel, .editorial-right-panel, .fig-right-panel, .pbr-channels-panel { display: none; }
+}
