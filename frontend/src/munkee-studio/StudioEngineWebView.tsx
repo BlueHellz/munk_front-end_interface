@@ -7,8 +7,6 @@ interface StudioEngineWebViewProps {
     selectedAsset?: StudioBinAsset | null;
 }
 
-const GH_PAGES_BASE = 'https://bluehellz.github.io/munk_front-end_interface/studio-engines';
-
 export function getEnginePathForTab(category: StudioCategory, tabTitle: string = ''): string {
     let folder = 'filmcraft';
     if (tabTitle.includes('Video Timeline') || tabTitle.includes('Editing')) folder = 'filmcraft';
@@ -26,7 +24,8 @@ export function getEnginePathForTab(category: StudioCategory, tabTitle: string =
     else if (category === 'audio') folder = 'soundcraft';
     else if (category === '3d') folder = 'texturecraft';
 
-    return `${GH_PAGES_BASE}/${folder}/index.html`;
+    // Local engine path served directly by Vite/dev server (no X-Frame-Options or CORS issues)
+    return `/studio-engines/${folder}/index.html`;
 }
 
 export function StudioEngineWebView({ category, activeTab, selectedAsset }: StudioEngineWebViewProps) {
@@ -62,9 +61,13 @@ export function StudioEngineWebView({ category, activeTab, selectedAsset }: Stud
                 }}
                 onError={() => {
                     setHasError(true);
-                    console.error(`[MunkeeStudio] Failed to load engine at live URL: ${engineUrl}`);
+                    console.error(`[MunkeeStudio] Failed to load engine at path: ${engineUrl}`);
                 }}
             />
+            {/* Debug URL Footer Label */}
+            <div style={{ position: 'absolute', bottom: 4, right: 8, fontSize: '0.65rem', color: '#5A6072', pointerEvents: 'none', zIndex: 50 }}>
+                Engine Source: {engineUrl}
+            </div>
         </div>
     );
 }
